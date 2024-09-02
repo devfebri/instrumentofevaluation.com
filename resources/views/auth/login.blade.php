@@ -110,7 +110,7 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-12">
-                                <input class="form-control text-center" name="username" type="text" required="" value="{{ $login_username }}" placeholder="NIK / Nomor Telpon">
+                                <input class="form-control text-center" name="username" type="text" required="" value="{{ $login_username }}" placeholder="Nomor Telpon">
                             </div>
                         </div>
 
