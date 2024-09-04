@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Jl. Jambi - Muara Bulian No.KM. 15, Mendalo Darat, Kec. Jambi Luar Kota, Kabupaten Muaro Jambi, Jambi</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Universitas Jambi</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>0822-1127-6498</p>
 
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
