@@ -55,12 +55,13 @@
                 <a href="{{ route('welcome') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
 
                 <a href="{{ route('pembelajaran_pjbl') }}" class="nav-item nav-link {{ request()->is('pembelajaran_pjbl') ? 'active' : '' }}">Pembelajaran PjBL</a>
-
+                <a href="{{ route('brainstorming') }}" class="nav-item nav-link {{ request()->is('brainstorming') ? 'active' : '' }}">Brainstorming</a>
                 {{-- <a href="courses.html" class="nav-item nav-link">Courses</a> --}}
+
+
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">DAMPAK</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ route('brainstorming') }}" class="dropdown-item {{ request()->is('brainstorming') ? 'active' : '' }}">Brainstorming </a>
                         <a href="{{ route('instrumen') }}" class="dropdown-item {{ request()->is('instrumen') ? 'active' : '' }}">Instrumen</a>
                         <a href="{{ route('tespolapikir') }}" class="dropdown-item {{ request()->is('tespolapikir') ? 'active' : '' }}">Apa pola piker saya? </a>
 

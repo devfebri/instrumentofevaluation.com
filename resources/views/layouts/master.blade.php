@@ -80,6 +80,7 @@
     <link href="{{ asset('template/assets/css/style.css') }}" rel="stylesheet" type="text/css">
 
     <link href="{{ asset('template/assets/plugins/fullcalendar/css/fullcalendar.min.css') }}" rel="stylesheet" />
+
     <style>
         .modal-backdrop {
             opacity: 0 !important;

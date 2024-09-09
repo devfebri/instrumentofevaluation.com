@@ -3,6 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,4 +37,13 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/item', [ItemController::class, 'index'])->name('item');
     Route::post('/item/create', [ItemController::class, 'create'])->name('itemcreate');
+
+    Route::get('/user',[UserController::class,'index'])->name('user');
+    Route::post('/user/tambah',[UserController::class,'tambah'])->name('usertambah');
+    Route::delete('/user/{id}',[UserController::class,'delete'])->name('userdelete');
+
+    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
+    Route::post('/kelas/tambah', [KelasController::class, 'tambah'])->name('kelastambah');
+    Route::delete('/kelas/{id}', [KelasController::class, 'delete'])->name('kelasdelete');
+    Route::get('/kelas/open/{id}',[KelasController::class,'open'])->name('kelasopen');
 });

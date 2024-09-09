@@ -17,8 +17,18 @@
                     <span> Dashboard </span>
                 </a>
             </li>
-
-
+            <li>
+                <a href="{{ route(auth()->user()->role.'_user') }}" class="waves-effect">
+                    <i class="mdi mdi-home"></i>
+                    <span> User </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route(auth()->user()->role.'_kelas') }}" class="waves-effect">
+                    <i class="mdi mdi-home"></i>
+                    <span> Kelas </span>
+                </a>
+            </li>
 
         </ul>
     </div>
