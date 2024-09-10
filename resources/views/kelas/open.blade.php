@@ -11,19 +11,23 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas {{ $data->nama_kelas }}
-                        <button type="button" class="btn btn-primary mb-2  float-right btn-sm" id="tombol-tambah">
-                            Tambah Data
+                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
+                            Tambah Mahasiswa
                         </button>
+                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
+                            Tambah Materi
+                        </button>
+
                     </h4>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card m-b-30">
                     <div class="card-body">
-                        <h3 class="card-title font-20 mt-0">Materi</h3>
-                        <table id="datatable2" class="table table-bordered">
+                        <h4 class="mt-0 header-title">Materi </h4>
+                        <table id="datatable1" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -35,55 +39,57 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($materi as $key => $row)
                                 <tr>
-                                    <td>1</td>
-                                    <td>MTK</td>
-                                    <td>Buk Yen</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td>{{ $row->nama_materi }}</td>
+                                    <td>{{ $row->deskripsi }}</td>
+                                    <td>{{ $row->file }}</td>
+                                    <td>{{ $row->link }}</td>
+                                    <td>
+                                        <div class="tabledit-toolbar btn-toolbar" style="text-align: center;">
+                                            <div class="btn-group btn-group-sm" style="float: none;">
+                                                <a href="#" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-primary"><span class="ti-shift-right"></span></a>
+                                            </div>
+                                        </div>
+                                    </td>
+
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="row">
-
+        <div class="row mb-5">
             <div class="col-12">
-                <div class="card">
+                <div class="card m-b-30">
+
                     <div class="card-body">
-                        <h3 class="card-title font-20 mt-0">Mahasiswa</h3>
-                        <table id="datatable2" class="table table-bordered">
+                        <h4 class="mt-0 header-title">Mahasiswa</h4>
+                        <table id="datatable2" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Mahasiswa</th>
+                                    <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>No HP</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Udin</td>
-                                    <td>Laki-laki</td>
-                                    <td>085266911477</td>
-                                    <td></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="tambah-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Modal materi-->
+<div class="modal fade" id="tambahmateri-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">
@@ -96,8 +102,20 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
-                        <h6 class="text-muted fw-400 mt-3">Nama Kelas</h6>
-                        <input type="text" class="form-control" name="nama_kelas" id="nama_kelas" required>
+                        <h6 class="text-muted fw-400 mt-3">Nama Materi</h6>
+                        <input type="text" class="form-control" name="nama_materi" id="nama_materi" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
+                        <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="225" rows="3" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">File</h6>
+                        <input type="file" class="form-control" name="file_materi" id="file_materi" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Link Materi</h6>
+                        <textarea id="link_materi" name="link_materi" class="form-control" maxlength="225" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -109,102 +127,74 @@
     </div>
 </div>
 
+<!-- Modal mahasiswa-->
+<div class="modal fade" id="tambahmahasiswa-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-judul"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation" id="form-tambah-edit" name="form-tambah-edit">
+                <div class="modal-body">
+                    <table id="datatable3" class="table table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Jenis Kelamin</th>
+                                <th>No HP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($mahasiswa as $key=>$row3)
+                                <tr>
+                                    <td>{{ ++$key }}</td>
+                                    <td>{{ $row3->name }}</td>
+                                    <td>{{ $row3->jk }}</td>
+                                    <td>{{ $row3->no_hp }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="tombol-simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @stop
 @section('javascript')
 <script src="{{ asset('template/assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src='{{ asset('template/assets/plugins/select2/select2.min.js') }}'></script>
 <script src="{{ asset('js/jquery-validation/jquery.validate.min.js') }}"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $(document).ready(function() {
-        var table = $('#datatable1').DataTable({
-            processing: true
-            , serverSide: true
-            , ajax: "{{ route(auth()->user()->role.'_kelas') }}"
-            , columns: [{
-                    data: null
-                    , sortable: false
-                    , render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1
-                    }
-                , }
-                , {
-                    data: 'nama_kelas'
-                    , name: 'nama_kelas'
-                }
-                , {
-                    data: 'action'
-                    , name: 'action'
-                }
-            ]
-        });
-
-        // tombol tambah data
-        $('#tombol-tambah').click(function() {
+    $('#datatable1').DataTable();
+    $('#datatable2').DataTable();
+    // $('#datatable3').DataTable();
+    $(document).ready(function(){
+         $('#tombol-tambahmateri').click(function() {
             $('#id').val(''); //valuenya menjadi kosong
             $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
-            $('#modal-judul').html("Tambah User"); //valuenya tambah pegawai baru
-            $('#tambah-edit-modal').modal('show');
+            $('#modal-judul').html("Tambah Materi"); //valuenya tambah pegawai baru
+            $('#tambahmateri-edit-modal').modal('show');
         });
+         $('#tombol-tambahmahasiswa').click(function() {
+            $('#id').val(''); //valuenya menjadi kosong
+            $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
+            $('#modal-judul').html("Tambah Mahasiswa"); //valuenya tambah pegawai baru
+            $('#tambahmahasiswa-edit-modal').modal('show');
 
-
-        if ($("#form-tambah-edit").length > 0) {
-            $("#form-tambah-edit").validate({
-                submitHandler: function(form) {
-
-                    var actionType = $('#tombol-simpan').val();
-                    var simpan = $('#tombol-simpan').html('Sending..');
-                    $.ajax({
-                        data: $('#form-tambah-edit').serialize(), //function yang dipakai agar value pada form-control seperti input, textarea, select dll dapat digunakan pada URL query string ketika melakukan ajax request
-                        url: "{{ route('admin_kelastambah') }}", //url simpan data
-                        type: "POST", //karena simpan kita pakai method POST
-                        dataType: 'json'
-                        , success: function(data) { //jika berhasil
-                            $('#form-tambah-edit').trigger("reset"); //form
-                            $('#tambah-edit-modal').modal('hide'); //modal hide
-                            $('#tombol-simpan').html('Simpan'); //tombol simpan
-                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
-                            oTable.fnDraw(false);
-                        }
-                        , error: function(data) { //jika error tampilkan error pada console
-
-                            $('#tombol-simpan').html('Simpan');
-                        }
-                    });
-                }
-            })
-        }
-
-        $('body').on('click', '.delete', function(id) {
-            var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_kelasdelete', ':dataid') }}";
-
-            urls = url.replace(':dataid', dataid);
-            alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
-                $.ajax({
-                    url: urls, //eksekusi ajax ke url ini
-                    type: 'delete'
-                    , success: function(data) { //jika sukses
-                        setTimeout(function() {
-                            var oTable = $('#datatable1').dataTable();
-                            oTable.fnDraw(false); //reset datatable
-                            $('#tombol-hapus').text('Yakin');
-                        });
-                    }
-                })
-                alertify.success('Data berhasil dihapus')
-            }, function() {
-                alertify.error('Cancel')
-            });
         });
-
-
     });
-
 </script>
 
 @stop

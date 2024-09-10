@@ -19,7 +19,7 @@
             </li>
             <li>
                 <a href="{{ route(auth()->user()->role.'_user') }}" class="waves-effect">
-                    <i class="mdi mdi-home"></i>
+                    <i class="mdi mdi-account-multiple"></i>
                     <span> User </span>
                 </a>
             </li>
@@ -29,7 +29,18 @@
                     <span> Kelas </span>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ route(auth()->user()->role.'_mindset') }}" class="waves-effect">
+                    <i class="mdi mdi-calendar-text"></i>
+                    <span> Pertanyaan </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="waves-effect">
+                    <i class="mdi mdi-buffer"></i>
+                    <span> Jawaban </span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="clearfix"></div>

@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\KelasController;
-use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\PertanyaanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +46,17 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/kelas/tambah', [KelasController::class, 'tambah'])->name('kelastambah');
     Route::delete('/kelas/{id}', [KelasController::class, 'delete'])->name('kelasdelete');
     Route::get('/kelas/open/{id}',[KelasController::class,'open'])->name('kelasopen');
+    Route::get('/kelas/open/{id}/materi',[KelasController::class,'getMateri'])->name('getMateri');
+
+    Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
+    Route::post('/mindset/tambah', [PertanyaanController::class, 'tambahmindset'])->name('mindsettambah');
+    Route::delete('/mindset/{id}', [PertanyaanController::class, 'deletemindset'])->name('mindsetdelete');
+    Route::get('/mindset/open/{id}',[PertanyaanController::class,'openmindset'])->name('openmindset');
+    Route::post('/mindset/indikator/tambah', [PertanyaanController::class, 'tambahindikator'])->name('indikatortambah');
+    Route::delete('/mindset/indikator/{id}', [PertanyaanController::class, 'deleteindikator'])->name('indikatordelete');
+
+    Route::get('/soal/{id}', [PertanyaanController::class, 'soal'])->name('soal');
+    Route::post('/soal/tambah', [PertanyaanController::class, 'tambahsoal'])->name('soaltambah');
+    Route::delete('/soal/{id}', [PertanyaanController::class, 'deletesoal'])->name('soaldelete');
+    Route::get('/soal/edit/{id}', [PertanyaanController::class, 'editsoal'])->name('soaledit');
 });
