@@ -11,57 +11,21 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas {{ $data->nama_kelas }}
-                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
-                            Tambah Mahasiswa
-                        </button>
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
                             Tambah Materi
                         </button>
+
+                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
+                            Tambah Mahasiswa
+                        </button>
+
 
                     </h4>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card m-b-30">
-                    <div class="card-body">
-                        <h4 class="mt-0 header-title">Materi </h4>
-                        <table id="datatable1" class="table table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Materi</th>
-                                    <th>Deskripsi</th>
-                                    <th>File</th>
-                                    <th>Link</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            {{-- <tbody>
-                                @foreach($materi as $key => $row)
-                                <tr>
-                                    <td>{{ $row->nama_materi }}</td>
-                                    <td>{{ $row->deskripsi }}</td>
-                                    <td>{{ $row->file }}</td>
-                                    <td>{{ $row->link }}</td>
-                                    <td>
-                                        <div class="tabledit-toolbar btn-toolbar" style="text-align: center;">
-                                            <div class="btn-group btn-group-sm" style="float: none;">
-                                                <a href="#" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-primary"><span class="ti-shift-right"></span></a>
-                                            </div>
-                                        </div>
-                                    </td>
 
-                                </tr>
-                                @endforeach
-                            </tbody> --}}
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-5">
+        <div class="row">
             <div class="col-12">
                 <div class="card m-b-30">
 
@@ -84,6 +48,47 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-5">
+
+            <div class="col-12">
+                <div class="card m-b-30">
+                    <div class="card-body">
+                        <h4 class="mt-0 header-title">Materi </h4>
+                        <table id="datatable1" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Materi</th>
+                                    <th>Deskripsi</th>
+                                    <th>File</th>
+                                    <th>Link</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            {{-- <tbody>
+                                @foreach($materi as $key => $row)
+                                <tr>
+                                    <td>{{ $row->nama_materi }}</td>
+                            <td>{{ $row->deskripsi }}</td>
+                            <td>{{ $row->file }}</td>
+                            <td>{{ $row->link }}</td>
+                            <td>
+                                <div class="tabledit-toolbar btn-toolbar" style="text-align: center;">
+                                    <div class="btn-group btn-group-sm" style="float: none;">
+                                        <a href="#" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-primary"><span class="ti-shift-right"></span></a>
+                                    </div>
+                                </div>
+                            </td>
+
+                            </tr>
+                            @endforeach
+                            </tbody> --}}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>
@@ -140,26 +145,16 @@
             </div>
             <form class="needs-validation" id="form-mahasiswa-tambah-edit" name="form-mahasiswa-tambah-edit">
                 <div class="modal-body">
-                    <table id="datatable3" class="table table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Mahasiswa</th>
-                                <th>Jenis Kelamin</th>
-                                <th>No HP</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($mahasiswa as $key=>$row3)
-                                <tr>
-                                    <td>{{ ++$key }}</td>
-                                    <td>{{ $row3->name }}</td>
-                                    <td>{{ $row3->jk }}</td>
-                                    <td>{{ $row3->no_hp }}</td>
-                                </tr>
+                   <div class="form-group">
+                       <h6 class="text-muted fw-400 mt-3">Mahasiswa</h6>
+                       <select name="mahasiswa[]" id="mahasiswa" class="form-control select2" multiple style="width: 100%">
+                            <option value="audi">Audi</option>
+                            @foreach($mahasiswa as $key => $row)
+                            <option value="{{ $row->name }}">{{ $row->name }}</option>
                             @endforeach
-                        </tbody>
-                    </table>
+                       </select>
+
+                   </div>
 
                 </div>
                 <div class="modal-footer">
@@ -183,6 +178,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('#mahasiswa').select2();
     var table = $('#datatable1').DataTable({
         processing: true
         , serverSide: true
