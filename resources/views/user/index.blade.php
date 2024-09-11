@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="datatable1" class="table table-bordered">
+                        <table id="datatable1" class="table table-bordered" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>No</th>

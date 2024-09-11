@@ -38,7 +38,7 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            {{-- <tbody>
                                 @foreach($materi as $key => $row)
                                 <tr>
                                     <td>{{ $row->nama_materi }}</td>
@@ -55,7 +55,7 @@
 
                                 </tr>
                                 @endforeach
-                            </tbody>
+                            </tbody> --}}
                         </table>
                     </div>
                 </div>
@@ -98,12 +98,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="needs-validation" id="form-tambah-edit" name="form-tambah-edit">
+            <form class="needs-validation" id="form-materi-tambah-edit" name="form-materi-tambah-edit">
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Nama Materi</h6>
                         <input type="text" class="form-control" name="nama_materi" id="nama_materi" required>
+                        <input type="text" class="form-control" name="kelas_id" id="kelas_id" value="{{ $id }}" required>
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
@@ -137,7 +138,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="needs-validation" id="form-tambah-edit" name="form-tambah-edit">
+            <form class="needs-validation" id="form-mahasiswa-tambah-edit" name="form-mahasiswa-tambah-edit">
                 <div class="modal-body">
                     <table id="datatable3" class="table table-bordered" style="width:100%">
                         <thead>
@@ -177,23 +178,114 @@
 <script src='{{ asset('template/assets/plugins/select2/select2.min.js') }}'></script>
 <script src="{{ asset('js/jquery-validation/jquery.validate.min.js') }}"></script>
 <script>
-    $('#datatable1').DataTable();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var table = $('#datatable1').DataTable({
+        processing: true
+        , serverSide: true
+        , ajax: "{{ route(auth()->user()->role.'_kelasopen',$id) }}"
+        , columns: [{
+                data: null
+                , sortable: false
+                , render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1
+                }
+            , }
+            , {
+                data: 'nama_materi'
+                , name: 'nama_materi'
+            }
+            , {
+                data: 'deskripsi'
+                , name: 'deskripsi'
+            }
+            , {
+                data: 'file_materi'
+                , name: 'file_materi'
+            }
+            , {
+                data: 'link_materi'
+                , name: 'link_materi'
+            }
+            , {
+                data: 'action'
+                , name: 'action'
+            }
+        ]
+    });
     $('#datatable2').DataTable();
     // $('#datatable3').DataTable();
     $(document).ready(function(){
          $('#tombol-tambahmateri').click(function() {
             $('#id').val(''); //valuenya menjadi kosong
-            $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
+            $('#form-materi-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
             $('#modal-judul').html("Tambah Materi"); //valuenya tambah pegawai baru
             $('#tambahmateri-edit-modal').modal('show');
         });
          $('#tombol-tambahmahasiswa').click(function() {
             $('#id').val(''); //valuenya menjadi kosong
-            $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
+            $('#form-mahasiswa-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
             $('#modal-judul').html("Tambah Mahasiswa"); //valuenya tambah pegawai baru
             $('#tambahmahasiswa-edit-modal').modal('show');
-
         });
+
+        if ($("#form-materi-tambah-edit").length > 0) {
+            $("#form-materi-tambah-edit").validate({
+                submitHandler: function(form) {
+                    var actionType = $('#tombol-simpan').val();
+                    var simpan = $('#tombol-simpan').html('Sending..');
+                    var data = new FormData(form);
+
+                    $.ajax({
+                        type: "POST", //karena simpan kita pakai method POST
+                        enctype: "multipart/form-data",
+                        url: "{{ route(auth()->user()->role.'_tambahmateri') }}",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) { //jika berhasil
+                            $('#form-materi-tambah-edit').trigger("reset"); //form
+                            $('#tambahmateri-edit-modal').modal('hide'); //modal hide
+                            $('#tombol-simpan').html('Simpan'); //tombol simpan
+                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false);
+                            alertify.success('Berhasil membuat Materi');
+                        },
+                        error: function (data) { //jika error tampilkan error pada console
+                            $('#tombol-simpan').html('Simpan');
+                        }
+                    });
+                }
+            })
+        }
+
+        $('body').on('click', '.deletemateri', function(id) {
+            var dataid = $(this).attr('data-id');
+            var url = "{{ route(auth()->user()->role.'_deletemateri', ':dataid') }}";
+            urls = url.replace(':dataid', dataid);
+            alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
+                $.ajax({
+                    url: urls, //eksekusi ajax ke url ini
+                    type: 'delete'
+                    , success: function(data) { //jika sukses
+                        setTimeout(function() {
+                            var oTable = $('#datatable1').dataTable();
+                            oTable.fnDraw(false); //reset datatable
+                            $('#tombol-hapus').text('Yakin');
+                        });
+                    }
+                })
+                alertify.success('Data berhasil dihapus')
+            }, function() {
+                alertify.error('Cancel')
+            });
+        });
+
     });
 </script>
 

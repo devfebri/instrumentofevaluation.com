@@ -17,7 +17,7 @@ class PertanyaanController extends Controller
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
                     $button .= '<a href="' . route('admin_openmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                $button .= '<a href="#" disabled class="tabledit-edit-button btn btn-sm btn-warning edit-post" style="float: none; margin: 5px;"><span class="ti-pencil"></span></a>';
+                    $button .= '<a href="#" disabled class="tabledit-edit-button btn btn-sm btn-warning edit-post" style="float: none; margin: 5px;"><span class="ti-pencil"></span></a>';
 
                     $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
                     $button .= '</div>';

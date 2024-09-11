@@ -25,7 +25,7 @@
             </li>
             <li>
                 <a href="{{ route(auth()->user()->role.'_kelas') }}" class="waves-effect">
-                    <i class="mdi mdi-home"></i>
+                    <i class="mdi mdi-clipboard"></i>
                     <span> Kelas </span>
                 </a>
             </li>

@@ -46,7 +46,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/kelas/tambah', [KelasController::class, 'tambah'])->name('kelastambah');
     Route::delete('/kelas/{id}', [KelasController::class, 'delete'])->name('kelasdelete');
     Route::get('/kelas/open/{id}',[KelasController::class,'open'])->name('kelasopen');
-    Route::get('/kelas/open/{id}/materi',[KelasController::class,'getMateri'])->name('getMateri');
+    Route::post('/kelas/materitambah', [KelasController::class, 'tambahmateri'])->name('tambahmateri');
+    Route::delete('/materi/{id}', [KelasController::class, 'deletemateri'])->name('deletemateri');
 
     Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
     Route::post('/mindset/tambah', [PertanyaanController::class, 'tambahmindset'])->name('mindsettambah');
