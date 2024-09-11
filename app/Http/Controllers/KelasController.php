@@ -91,7 +91,7 @@ class KelasController extends Controller
     public function deletemateri($id)
     {
         $data = Materi::find($id);
-        $image = public_path() . '/storage/materi/' . auth()->user()->username . '/' . $data->file_materi;
+        $image = '/public/materi/' . auth()->user()->username . '/' . $data->file_materi;
         // dd(Storage::exists($image));
         if (Storage::exists($image)) {
             Storage::delete($image);

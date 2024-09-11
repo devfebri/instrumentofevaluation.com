@@ -104,7 +104,7 @@
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Nama Materi</h6>
                         <input type="text" class="form-control" name="nama_materi" id="nama_materi" required>
-                        <input type="text" class="form-control" name="kelas_id" id="kelas_id" value="{{ $id }}" required>
+                        <input type="hidden" class="form-control" name="kelas_id" id="kelas_id" value="{{ $id }}" required>
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">File</h6>
-                        <input type="file" class="form-control" name="file_materi" id="file_materi" required>
+                        <input type="file" class="form-control" name="file_materi" id="file_materi" >
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Link Materi</h6>
