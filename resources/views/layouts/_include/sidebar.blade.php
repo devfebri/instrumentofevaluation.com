@@ -17,6 +17,7 @@
                     <span> Dashboard </span>
                 </a>
             </li>
+            @if(auth()->user()->role=='admin')
             <li>
                 <a href="{{ route(auth()->user()->role.'_user') }}" class="waves-effect">
                     <i class="mdi mdi-account-multiple"></i>
@@ -29,11 +30,13 @@
                     <span> Kelas </span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route(auth()->user()->role.'_mindset') }}" class="waves-effect">
-                    <i class="mdi mdi-calendar-text"></i>
-                    <span> Pertanyaan </span>
-                </a>
+            <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-calendar-text"></i> <span> Pertanyaan </span> <span class="float-right"><i class="mdi mdi mdi-chevron-right"></i></span></a>
+                <ul class="list-unstyled">
+                    <li><a href="{{ route(auth()->user()->role.'_soalfront') }}">Halaman Depan</a></li>
+
+                    <li><a href="{{ route(auth()->user()->role.'_mindset') }}">Mahasiswa</a></li>
+                </ul>
             </li>
             <li>
                 <a href="#" class="waves-effect">
@@ -41,6 +44,7 @@
                     <span> Jawaban </span>
                 </a>
             </li>
+            @endif
         </ul>
     </div>
     <div class="clearfix"></div>

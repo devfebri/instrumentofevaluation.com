@@ -183,6 +183,7 @@
     @yield('javascript')
 
     <script>
+        
         @if(Session::has('pesan'))
 
         alertify.success("{{ Session::get('pesan') }}");

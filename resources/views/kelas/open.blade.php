@@ -14,12 +14,9 @@
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
                             Tambah Materi
                         </button>
-
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
                             Tambah Mahasiswa
                         </button>
-
-
                     </h4>
                 </div>
             </div>
@@ -31,7 +28,7 @@
 
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Mahasiswa</h4>
-                        <table id="datatable2" class="table table-bordered" style="width:100%">
+                        <table id="datatable1" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -49,12 +46,11 @@
             </div>
         </div>
         <div class="row mb-5">
-
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Materi </h4>
-                        <table id="datatable1" class="table table-bordered" style="width:100%">
+                        <table id="datatable2" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -88,7 +84,6 @@
                 </div>
             </div>
         </div>
-
 
     </div>
 </div>
@@ -138,7 +133,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-judul"></h5>
+                <h5 class="modal-title" id="modal-judul"> Tambah Mahasiswa</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,16 +141,15 @@
             <form class="needs-validation" id="form-mahasiswa-tambah-edit" name="form-mahasiswa-tambah-edit">
                 <div class="modal-body">
                    <div class="form-group">
-                       <h6 class="text-muted fw-400 mt-3">Mahasiswa</h6>
+                       <h6 class="text-muted fw-400 mt-3">Nama Mahasiswa</h6>
+                       <input type="hidden" name="kelas_id" value="{{ $id }}">
                        <select name="mahasiswa[]" id="mahasiswa" class="form-control select2" multiple style="width: 100%">
-                            <option value="audi">Audi</option>
+                            <option value="">-Pilih-</option>
                             @foreach($mahasiswa as $key => $row)
-                            <option value="{{ $row->name }}">{{ $row->name }}</option>
+                            <option value="{{ $row->id }}">{{ $row->nama_kelas }} - {{ $row->name }}</option>
                             @endforeach
                        </select>
-
                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -179,10 +173,40 @@
         }
     });
     $('#mahasiswa').select2();
-    var table = $('#datatable1').DataTable({
+
+    $('#datatable1').DataTable({
         processing: true
         , serverSide: true
-        , ajax: "{{ route(auth()->user()->role.'_kelasopen',$id) }}"
+        , ajax: "{{ route(auth()->user()->role.'_getMahasiswa',$id) }}"
+        , columns: [{
+                data: null
+                , sortable: false
+                , render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1
+                }
+            , }
+            , {
+                data: 'name'
+                , name: 'name'
+            }
+            , {
+                data: 'jk'
+                , name: 'jk'
+            }
+            , {
+                data: 'no_hp'
+                , name: 'no_hp'
+            }
+            , {
+                data: 'action'
+                , name: 'action'
+            }
+        ]
+    });
+    $('#datatable2').DataTable({
+        processing: true
+        , serverSide: true
+        , ajax:"{{ route(auth()->user()->role.'_kelasopen',$id) }}"
         , columns: [{
                 data: null
                 , sortable: false
@@ -212,7 +236,7 @@
             }
         ]
     });
-    $('#datatable2').DataTable();
+
     // $('#datatable3').DataTable();
     $(document).ready(function(){
          $('#tombol-tambahmateri').click(function() {
@@ -259,12 +283,63 @@
                 }
             })
         }
-
+        if ($("#form-mahasiswa-tambah-edit").length > 0) {
+            $("#form-mahasiswa-tambah-edit").validate({
+                submitHandler: function(form) {
+                    var actionType = $('#tombol-simpan').val();
+                    var simpan = $('#tombol-simpan').html('Sending..');
+                    var data = new FormData(form);
+                    $.ajax({
+                        type: "POST", //karena simpan kita pakai method POST
+                        enctype: "multipart/form-data",
+                        url: "{{ route(auth()->user()->role.'_tambahmahasiswa') }}",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) { //jika berhasil
+                            $('#form-mahasiswa-tambah-edit').trigger("reset"); //form
+                            $('#tambahmahasiswa-edit-modal').modal('hide'); //modal hide
+                            $('#tombol-simpan').html('Simpan'); //tombol simpan
+                            var oTable = $('#datatable2').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false);
+                            alertify.success('Berhasil Menambah Mahasiswa');
+                        },
+                        error: function (data) { //jika error tampilkan error pada console
+                            $('#tombol-simpan').html('Simpan');
+                        }
+                    });
+                }
+            })
+        }
         $('body').on('click', '.deletemateri', function(id) {
             var dataid = $(this).attr('data-id');
             var url = "{{ route(auth()->user()->role.'_deletemateri', ':dataid') }}";
             urls = url.replace(':dataid', dataid);
             alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
+                $.ajax({
+                    url: urls, //eksekusi ajax ke url ini
+                    type: 'delete'
+                    , success: function(data) { //jika sukses
+                        setTimeout(function() {
+                            var oTable = $('#datatable2').dataTable();
+                            oTable.fnDraw(false); //reset datatable
+                            $('#tombol-hapus').text('Yakin');
+                        });
+                    }
+                })
+                alertify.success('Data berhasil dihapus')
+            }, function() {
+                alertify.error('Cancel')
+            });
+        });
+
+        $('body').on('click', '.deletemahasiswa', function(id) {
+            var dataid = $(this).attr('data-id');
+            var url = "{{ route(auth()->user()->role.'_deletemahasiswa', ':dataid') }}";
+            urls = url.replace(':dataid', dataid);
+            alertify.confirm('Apa anda yakin ingin menghapus mahasiswa ini dikelas ?', function() {
                 $.ajax({
                     url: urls, //eksekusi ajax ke url ini
                     type: 'delete'
@@ -276,11 +351,15 @@
                         });
                     }
                 })
-                alertify.success('Data berhasil dihapus')
+                alertify.success('Kelas berhasil dihapus')
             }, function() {
                 alertify.error('Cancel')
             });
         });
+
+
+
+
 
     });
 </script>

@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('css')
 <link href="{{ asset('template/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
-
 @endsection
 
 @section('content')
@@ -10,7 +9,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Kelas
+
+
+                    <h4 class="page-title">
                         <button type="button" class="btn btn-primary mb-2  float-right btn-sm" id="tombol-tambah">
                             Tambah Data
                         </button>
@@ -22,12 +23,14 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="datatable1" class="table table-bordered" style="width: 100%">
+                        <h4 class="mt-0 header-title">Soal</h4>
+                        <table id="datatable1" class="table table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Kelas</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 5%">No</th>
+                                    <th>Soal</th>
+                                    <th style="width: 10%">Aksi</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,8 +57,8 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
-                        <h6 class="text-muted fw-400 mt-3">Nama Kelas</h6>
-                        <input type="text" class="form-control" name="nama_kelas" id="nama_kelas" required>
+                        <h6 class="text-muted fw-400 mt-3">Soal</h6>
+                        <textarea name="soal" class="form-control" id="soal" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,7 +85,8 @@
         var table = $('#datatable1').DataTable({
             processing: true
             , serverSide: true
-            , ajax: "{{ route(auth()->user()->role.'_kelas') }}"
+            , ajax: "{{ route(auth()->user()->role.'_soalfront') }}"
+
             , columns: [{
                     data: null
                     , sortable: false
@@ -91,8 +95,8 @@
                     }
                 , }
                 , {
-                    data: 'nama_kelas'
-                    , name: 'nama_kelas'
+                    data: 'soal'
+                    , name: 'soal'
                 }
                 , {
                     data: 'action'
@@ -105,7 +109,7 @@
         $('#tombol-tambah').click(function() {
             $('#id').val(''); //valuenya menjadi kosong
             $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
-            $('#modal-judul').html("Tambah User"); //valuenya tambah pegawai baru
+            $('#modal-judul').html("Tambah Soal"); //valuenya tambah pegawai baru
             $('#tambah-edit-modal').modal('show');
         });
 
@@ -113,11 +117,12 @@
         if ($("#form-tambah-edit").length > 0) {
             $("#form-tambah-edit").validate({
                 submitHandler: function(form) {
+
                     var actionType = $('#tombol-simpan').val();
                     var simpan = $('#tombol-simpan').html('Sending..');
                     $.ajax({
                         data: $('#form-tambah-edit').serialize(), //function yang dipakai agar value pada form-control seperti input, textarea, select dll dapat digunakan pada URL query string ketika melakukan ajax request
-                        url: "{{ route('admin_kelastambah') }}", //url simpan data
+                        url: "{{ route('admin_soalfronttambah') }}", //url simpan data
                         type: "POST", //karena simpan kita pakai method POST
                         dataType: 'json'
                         , success: function(data) { //jika berhasil
@@ -128,6 +133,7 @@
                             oTable.fnDraw(false);
                         }
                         , error: function(data) { //jika error tampilkan error pada console
+
                             $('#tombol-simpan').html('Simpan');
                         }
                     });
@@ -137,10 +143,10 @@
 
         $('body').on('click', '.delete', function(id) {
             var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_kelasdelete', ':dataid') }}";
+            var url = "{{ route(auth()->user()->role.'_soalfrontdelete', ':dataid') }}";
 
             urls = url.replace(':dataid', dataid);
-            alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
+            alertify.confirm('Seluruh soal yang ada pada soal ini akan ikut terhapus, apa anda yakin ?', function() {
                 $.ajax({
                     url: urls, //eksekusi ajax ke url ini
                     type: 'delete'

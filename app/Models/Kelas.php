@@ -10,4 +10,6 @@ class Kelas extends Model
     use HasFactory;
 
     protected $table ='kelas';
+    protected $fillable=['kelas_id','username','name','email','role','jk','no_hp','password','avatar'];
+
 }

@@ -119,7 +119,6 @@
         if ($("#form-tambah-edit").length > 0) {
             $("#form-tambah-edit").validate({
                 submitHandler: function(form) {
-
                     var actionType = $('#tombol-simpan').val();
                     var simpan = $('#tombol-simpan').html('Sending..');
                     $.ajax({
@@ -146,7 +145,6 @@
         $('body').on('click', '.delete', function(id) {
             var dataid = $(this).attr('data-id');
             var url = "{{ route(auth()->user()->role.'_userdelete', ':dataid') }}";
-
             urls = url.replace(':dataid', dataid);
             alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
                 $.ajax({
@@ -164,6 +162,21 @@
             }, function() {
                 alertify.error('Cancel')
             });
+        });
+
+        $('body').on('click', '.edit-post', function () {
+             var data_id = $(this).data('id');
+             var url = "{{ route(auth()->user()->role.'_mindsetedit',':data_id') }}";
+             url = url.replace(':data_id', data_id);
+
+            $.get(url, function (data) {
+                // alert('ok');
+                $('#modal-judul').html("Edit Mindset");
+                $('#tombol-simpan').val("edit-post");
+                $('#tambah-edit-modal').modal('show');
+                $('#id').val(data.id);
+                $('#mindset').val(data.nama_mindset);
+            })
         });
 
 

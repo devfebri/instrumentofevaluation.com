@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SoalFront;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -19,7 +20,8 @@ class FrontController extends Controller
         return view('front.instrumen');
     }
     public function tespolapikir (){
-        return view('front.tespolapikir');
+        $data=SoalFront::orderBy('id','desc')->get();
+        return view('front.tespolapikir',compact('data'));
     }
     public function contact (){
         return view('front.contact');

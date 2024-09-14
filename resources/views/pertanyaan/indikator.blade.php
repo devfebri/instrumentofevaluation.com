@@ -169,6 +169,21 @@
             });
         });
 
+        $('body').on('click', '.edit-post', function () {
+             var data_id = $(this).data('id');
+             var url = "{{ route(auth()->user()->role.'_indikatoredit',':data_id') }}";
+             url = url.replace(':data_id', data_id);
+
+            $.get(url, function (data) {
+                // alert('ok');
+                $('#modal-judul').html("Edit Indikator");
+                $('#tombol-simpan').val("edit-post");
+                $('#tambah-edit-modal').modal('show');
+                $('#id').val(data.id);
+                $('#indikator').val(data.nama_indikator);
+            })
+        });
+
 
     });
 
