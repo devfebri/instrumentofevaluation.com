@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function tambah(Request $request){
 
-        // dd($request->all());
+        dd($request->all());
         $data= new User();
         $data->name=$request->name;
         $data->username=$request->no_hp;

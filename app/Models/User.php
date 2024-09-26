@@ -20,7 +20,19 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'nim',
+        'role',
         'password',
+        'kelas_id',
+        'username',
+        'role',
+        'tmpt_lahir',
+        'tgl_lahir',
+        'alamat',
+        'jk',
+        'no_hp',
+        'password',
+        'avatar'
     ];
 
     /**
@@ -40,13 +52,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
 
     public function getAvatar()
     {
         if (!$this->avatar) {
-            return asset('img/default.jpg');
+            return asset('storage/user.jpg');
         }
         return asset('storage/avatar/' . auth()->user()->username . '/' . $this->avatar);
     }

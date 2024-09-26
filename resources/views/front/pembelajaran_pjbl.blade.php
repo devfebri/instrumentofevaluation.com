@@ -69,53 +69,35 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+            {{-- <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                 <div class="position-relative h-100">
                     <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('master/img/about.jpg') }}" alt="" style="object-fit: cover;">
 
                 </div>
-            </div>
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+            </div> --}}
+            <div class="col-lg-12 wow fadeInUp" style="text-align: justify;" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">Pembelajaran PjBL</h6>
                 <h1 class="mb-4">Apa itu Pembelajaran PjBL ?</h1>
-                <p class="mb-4">Project-Based Learning (PjBL) adalah metode pembelajaran yang berfokus pada
-                    pengembangan keterampilan melalui proyek nyata. Dalam PjBL, siswa tidak hanya
-                    mempelajari teori, tetapi juga menerapkannya secara langsung melalui proyek yang
-                    relevan dengan kehidupan nyata. Proses ini melibatkan penelitian, perencanaan,
-                    pelaksanaan, dan evaluasi proyek oleh siswa. Pembelajaran ini dirancang untuk
-                    mendorong siswa bekerja secara kolaboratif, berpikir kritis, serta mengembangkan
-                    kemampuan problem-solving. Dengan demikian, PjBL memberikan kesempatan bagi
-                    siswa untuk belajar secara mendalam dan mengintegrasikan berbagai konsep yang
-                    telah mereka pelajari. Selain itu, PjBL menempatkan siswa sebagai pusat dari proses
-                    pembelajaran. Guru berperan sebagai fasilitator yang membimbing dan memberikan
-                    arahan selama proses berlangsung. PjBL juga menekankan pentingnya interaksi
-                    sosial, di mana siswa bekerja dalam kelompok untuk mencapai tujuan bersama.
-                    Metode ini efektif dalam meningkatkan motivasi belajar siswa karena mereka merasa
-                    terlibat secara langsung dalam proses pembelajaran dan dapat melihat hasil nyata
-                    dari usaha mereka. Hasil akhirnya tidak hanya pengetahuan teoritis, tetapi juga
-                    keterampilan praktis yang sangat dibutuhkan dalam kehidupan sehari-hari dan dunia
-                    kerja.</p>
-                {{-- <div class="row gy-2 gx-4 mb-4">
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                    </div>
-                </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a> --}}
+                <p class="mb-4">Model Pembelajaran Berbasis Proyek (Project-based Learning/PjBL) adalah pendekatan pembelajaran yang didasarkan pada prinsip-prinsip konstruktivisme, yang menekankan pembelajaran sebagai proses aktif di mana Mahasiswa secara aktif terlibat dalam pembangunan pengetahuan melalui pengalaman nyata. Dalam PjBL, Mahasiswa terlibat dalam eksplorasi dan penyelidikan mendalam terhadap topik tertentu melalui proyek atau tugas yang memiliki relevansi langsung dengan dunia nyata. Pendekatan ini untuk mengembangkan pemahaman mendalam tentang konsep-konsep pelajaran, mengembangkan keterampilan berpikir kritis, memperluas keterampilan kolaborasi, serta menerapkan pengetahuan dalam situasi kontekstual. PjBL juga memberikan ruang bagi pengembangan autonomi mahasiswa, karena mereka memiliki kendali dalam merencanakan, melaksanakan, dan mengevaluasi proyek mereka sendiri. Melalui pembelajaran berkelanjutan dan refleksi, Mahasiswa juga dapat meningkatkan kemampuan mereka dalam memecahkan masalah kompleks, beradaptasi dengan konteks yang beragam, dan berkomunikasi dengan efektif. Dengan demikian, PjBL bukan hanya sekadar metode pembelajaran, tetapi juga pendekatan yang berpotensi menciptakan pengalaman pembelajaran yang bermakna dan relevan dalam mempersiapkan Mahasiswa untuk menghadapi tantangan dunia modern.
+                    <br>
+                    <br>
+                    Melalui penerapan model pembelajaran Mahasiswa dipandu untuk menguasai informasi dan keterampilan yang disajikan dalam proses pembelajaran. Sajian proses pembelajaran selain terhadap konten isi pembelajaran juga terhadap tujuan yang mengarahkan kepada jangka panjang suatu program program.
+                    Manfaat model pembelajaran sebagai berikut :
+                    <ol>
+                        <li> Mempelajari penguasaan konsep dan cara menemukannya</li>
+                        <li> Membangun hipotesis, teori dan menggunakan alat-alat sains untuk pembuktian</li>
+                        <li> Mengekstrak informasi dan ide dari perkuliahan</li>
+                        <li> Mempelajari isu-isu social</li>
+                        <li> Menganalisis nilai-nilai sosial.</li>
+                        <li> Mendapatkan keuntungan dari pelatihan dan penerapnnya sepert keterampilan atletik, seni pertunjukan, matematika, dan social</li>
+                        <li> Membuat tulisan dan pemecahan masalah lebih lebih jernih dan kreatif</li>
+                        <li> Mengambil inisiatif dalam merencanakan pelajaran pribadi, pembelajaran dan penyelidikan yang kooperatif serta kemampuanbekerja dengan orang lain.</li>
+                    </ol>
+
+                    Pembahasan lebih lengkap terdapat dalam buku pdf ini: <a href="{{ asset('file/PjBL - Brainstorming.pdf') }}" target="_blank" class="btn btn-primary btn-sm">download</a>
+
+
+</p>
             </div>
         </div>
     </div>

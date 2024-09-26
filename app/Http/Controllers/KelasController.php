@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\Mahasiswa;
+use App\Models\Matakuliah;
 use App\Models\Materi;
+use App\Models\Tugas;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +48,7 @@ class KelasController extends Controller
 
         $materi = Materi::where('kelas_id',$id)->orderBy('id','desc')->get();
         $data   = Kelas::find($id);
+        $dosen  = User::where('role','dosen')->get();
 
         $mahasiswa=DB::table('users')
         ->join('kelas','users.kelas_id','=','kelas.id','left')
@@ -86,7 +89,7 @@ class KelasController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('kelas.open',compact('data','id','materi', 'mahasiswa'));
+        return view('kelas.open',compact('data','id','materi', 'mahasiswa','dosen'));
     }
 
     public function tambahmateri(Request $request){
@@ -160,5 +163,71 @@ class KelasController extends Controller
             ->where('id', $id)
             ->update(['kelas_id' => null]);
         return response()->json();
+    }
+
+    public function getMatakuliah($id, Request $request)
+    {
+        $matakuliah=Matakuliah::orderBy('id','desc')->get();
+        if ($request->ajax()) {
+            return datatables()->of($matakuliah)
+                ->addColumn('action', function ($f) {
+                    $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
+                    $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
+                    $button .= '<a href="' . route('admin_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    $button .= '</div>';
+                    $button .= '</div>';
+                    return $button;
+                })->addColumn('nama_dosen',function($f){
+                    $data=User::find($f->dosen_id)->name;
+                    return $data;
+                })
+                ->rawColumns(['action', 'nama_dosen'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+    public function tambahmatakuliah(Request $request)
+    {
+        // dd($request->all());
+        $data = new Matakuliah();
+        $data->kelas_id     = $request->kelas_id;
+        $data->dosen_id     = $request->dosen_id;
+        $data->nama_mk      = $request->nama_mk;
+        $data->save();
+        return response()->json($data);
+    }
+
+    public function openmatakuliah($id,Request $request)
+    {
+        // dd($id);
+        $matakuliah=Matakuliah::find($id);
+        $kelas=Kelas::find($matakuliah->kelas_id);
+        $data = Materi::where('matakuliah_id', $id)->where('kelas_id',$matakuliah->kelas_id)->orderBy('id', 'desc')->get();
+        return view('kelas.openmatakuliah',compact('matakuliah','data','kelas','id'));
+    }
+
+    public function getTugas($id, Request $request)
+    {
+        $tugas = Tugas::orderBy('id', 'desc')->get();
+        if ($request->ajax()) {
+            return datatables()->of($tugas)
+                ->addColumn('action', function ($f) {
+                    $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
+                    $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
+                    // $button .= '<a href="' . route('admin_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    $button .= '</div>';
+                    $button .= '</div>';
+                    return $button;
+                })
+                ->rawColumns(['action', 'nama_dosen'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+    public function siswaopen($id)
+    {
+        return view('kelas.siswaopen');
     }
 }

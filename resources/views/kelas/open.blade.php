@@ -11,6 +11,9 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas {{ $data->nama_kelas }}
+                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
+                            Tambah Matakuliah
+                        </button>
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
                             Tambah Materi
                         </button>
@@ -22,6 +25,28 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12">
+                <div class="card m-b-30">
+
+                    <div class="card-body">
+                        <h4 class="mt-0 header-title">Matakuliah</h4>
+                        <table id="datatablemk" class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Matakuliah</th>
+                                    <th>Nama Dosen</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card m-b-30">
@@ -88,6 +113,43 @@
     </div>
 </div>
 
+<!-- Modal matakuliah-->
+<div class="modal fade" id="tambahmatakuliah-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-judul"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation" id="form-matakuliah-tambah-edit" name="form-matakuliah-tambah-edit">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Nama Matakuliah</h6>
+                        <input type="text" class="form-control" name="nama_mk" id="nama_mk" required>
+                        <input type="hidden" class="form-control" name="kelas_id" id="kelas_id" value="{{ $id }}" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Nama Dosen</h6>
+                        <select name="dosen_id" id="dosen_id" class="form-control select2"  style="width: 100%">
+                            <option value="">-Pilih-</option>
+                            @foreach($dosen as $row1)
+                            <option value="{{ $row1->id }}">{{ $row1->nip }}-{{ $row1->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="tombol-simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Modal materi-->
 <div class="modal fade" id="tambahmateri-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -174,6 +236,31 @@
     });
     $('#mahasiswa').select2();
 
+    $('#datatablemk').DataTable({
+        processing: true
+        , serverSide: true
+        , ajax: "{{ route(auth()->user()->role.'_getMatakuliah',$id) }}"
+        , columns: [{
+                data: null
+                , sortable: false
+                , render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1
+                }
+            , }
+            , {
+                data: 'nama_mk'
+                , name: 'nama_mk'
+            }
+            , {
+                data: 'nama_dosen'
+                , name: 'nama_dosen'
+            }
+            , {
+                data: 'action'
+                , name: 'action'
+            }
+        ]
+    });
     $('#datatable1').DataTable({
         processing: true
         , serverSide: true
@@ -251,7 +338,44 @@
             $('#modal-judul').html("Tambah Mahasiswa"); //valuenya tambah pegawai baru
             $('#tambahmahasiswa-edit-modal').modal('show');
         });
+         $('#tombol-tambahmatakuliah').click(function() {
+            $('#id').val(''); //valuenya menjadi kosong
+            $('#form-matakuliah-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
+            $('#modal-judul').html("Tambah Matakuliah"); //valuenya tambah pegawai baru
+            $('#tambahmatakuliah-edit-modal').modal('show');
+        });
 
+        if ($("#form-matakuliah-tambah-edit").length > 0) {
+            $("#form-matakuliah-tambah-edit").validate({
+                submitHandler: function(form) {
+                    var actionType = $('#tombol-simpan').val();
+                    var simpan = $('#tombol-simpan').html('Sending..');
+                    var data = new FormData(form);
+
+                    $.ajax({
+                        type: "POST", //karena simpan kita pakai method POST
+                        enctype: "multipart/form-data",
+                        url: "{{ route(auth()->user()->role.'_tambahmatakuliah') }}",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) { //jika berhasil
+                            $('#form-matakuliah-tambah-edit').trigger("reset"); //form
+                            $('#tambahmatakuliah-edit-modal').modal('hide'); //modal hide
+                            $('#tombol-simpan').html('Simpan'); //tombol simpan
+                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false);
+                            alertify.success('Berhasil membuat matakuliah');
+                        },
+                        error: function (data) { //jika error tampilkan error pada console
+                            $('#tombol-simpan').html('Simpan');
+                        }
+                    });
+                }
+            })
+        }
         if ($("#form-materi-tambah-edit").length > 0) {
             $("#form-materi-tambah-edit").validate({
                 submitHandler: function(form) {

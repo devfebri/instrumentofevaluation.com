@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('css')
 <link href="{{ asset('template/assets/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
-
 @endsection
 
 @section('content')
@@ -171,7 +170,6 @@
         $('body').on('click', '.delete', function(id) {
             var dataid = $(this).attr('data-id');
             var url = "{{ route(auth()->user()->role.'_userdelete', ':dataid') }}";
-
             urls = url.replace(':dataid', dataid);
             alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
                 $.ajax({

@@ -71,34 +71,40 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+            {{-- <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                 <div class="position-relative h-100">
                     <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('master/img/cat-4.jpg') }}" alt="" style="object-fit: cover;">
 
                 </div>
-            </div>
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h6 class="section-title bg-white text-start text-primary pe-3">Dampak</h6>
+            </div> --}}
+            <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
+                {{-- <h6 class="section-title bg-white text-start text-primary pe-3">Dampak</h6> --}}
                 <h1 class="mb-4">Brainstorming</h1>
 
-                <p class="mb-4">Brainstorming adalah teknik kreatif yang digunakan untuk menghasilkan ide-ide atau
-                    solusi inovatif dalam menyelesaikan masalah atau mengembangkan konsep. Proses
-                    brainstorming melibatkan pengumpulan spontan dari berbagai ide oleh individu atau
-                    kelompok tanpa adanya penilaian atau kritik pada tahap awal. Tujuan utamanya
-                    adalah untuk mendorong aliran bebas ide, memungkinkan setiap peserta untuk
-                    menyampaikan pemikiran mereka secara terbuka, sehingga muncul beragam
-                    perspektif yang dapat memperkaya solusi akhir. Teknik ini sering digunakan dalam
-                    diskusi kelompok di mana setiap anggota didorong untuk berkontribusi, tanpa takut
-                    ide mereka dianggap tidak relevan atau salah.
-                    Dalam brainstorming, semua ide yang muncul dicatat dan dipertimbangkan tanpa
-                    pengecualian, dan setelah tahap awal pengumpulan ide selesai, barulah dilakukan
-                    evaluasi untuk menyaring dan mengembangkan ide-ide terbaik. Proses ini
-                    memungkinkan tim untuk mengeksplorasi berbagai kemungkinan dan menemukan
-                    solusi yang mungkin tidak terpikirkan sebelumnya. Brainstorming efektif dalam
-                    mendorong kreativitas dan inovasi, karena suasana yang terbuka dan bebas dari kritik
-                    membantu menghilangkan hambatan psikologis yang sering kali menghalangi
-                    pemikiran kreatif. Pada akhirnya, brainstorming dapat menghasilkan solusi yang lebih
-                    kaya dan lebih baik dibandingkan metode pemecahan masalah yang lebih terstruktur</p>
+                <p class="mb-4">
+                    Brainstorming adalah suatu teknik atau proses kelompok yang digunakan untuk menghasilkan ide-ide kreatif dan solusi untuk suatu masalah atau proyek. Pola pikir brainstorming mencakup sejumlah prinsip dan aturan yang dapat meningkatkan efektivitasnya.
+                    <ol>
+                        <li>Defer Judgment (Menunda Penilaian):</li>
+                        Pola pikir ini mengacu pada penundaan penilaian atau kritik terhadap ide-ide yang diajukan selama sesi brainstorming. Tujuannya adalah menciptakan lingkungan yang mendukung pengungkapan ide tanpa takut dihakimi. Hal ini memungkinkan setiap anggota kelompok untuk merasa bebas berekspresi.
+                        <li>Quantity breeds Quality (Kuantitas Menghasilkan Kualitas):</li>
+                        Pola pikir ini menekankan pada produksi sebanyak mungkin ide dalam sesi brainstorming. Semakin banyak ide yang dihasilkan, semakin besar kemungkinan untuk menemukan solusi yang kreatif. Fokus pada kuantitas awal, dan kemudian filter dan evaluasi ide-ide tersebut.
+                        <li>Build on the Ideas of Others (Membangun Atas Ide Orang Lain):</li>
+                        Dalam pola pikir ini, setiap anggota kelompok diharapkan untuk membangun atau mengembangkan ide-ide yang telah diajukan oleh orang lain. Hal ini menggalang kolaborasi dan meningkatkan variasi ide-ide yang dihasilkan.
+                        <li>Encourage Wild and Unusual Ideas (Mendorong Ide-Ide Gila dan Tidak Biasa):</li>
+                        Suatu sesi brainstorming efektif tidak hanya membatasi diri pada ide-ide yang konvensional atau masuk akal. Mendorong ide-ide yang "gila" atau tidak konvensional dapat memunculkan solusi-solusi yang inovatif.
+                        <li>Stay Focused on the Topic (Tetap Fokus pada Topik):</li>
+                        Penting untuk memastikan bahwa ide-ide yang dihasilkan tetap terkait dengan topik atau masalah yang sedang dibahas. Ini membantu menjaga relevansi dan memastikan bahwa brainstorming memiliki hasil yang bermanfaat.
+
+
+
+
+                    </ol>
+                    Melalui penerapan pola pikir ini, proses brainstorming dapat menjadi sarana yang efektif untuk menghasilkan ide-ide kreatif dan solusi yang dapat digunakan dalam berbagai konteks, baik di dunia bisnis, pendidikan, atau pengembangan proyek.
+                    <br>
+                    <br>
+                    Untuk panduan Brainstorming terdapat dalam file pdf ini: <a href="{{ asset('file/BUKU_PANDUAN_BRAINSTORMING.pdf') }}" class="btn btn-primary btn-sm" target="_blank">download</a>
+                </p>
+
             </div>
         </div>
     </div>

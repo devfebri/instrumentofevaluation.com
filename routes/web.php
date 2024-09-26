@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\MindsetSiswaController;
 use App\Http\Controllers\PertanyaanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,16 @@ Route::get('/instrumen',[FrontController::class, 'instrumen'])->name('instrumen'
 Route::get('/tespolapikir',[FrontController::class, 'tespolapikir'])->name('tespolapikir');
 Route::get('/contact',[FrontController::class, 'contact'])->name('contact');
 
+Route::get('/perkembangan_otak',[FrontController::class,'perkembangan_otak'])->name('perkembangan_otak');
+Route::get('/pola_pikir_berkembang',[FrontController::class, 'pola_pikir_berkembang'])->name('pola_pikir_berkembang');
+Route::get('/pola_pikir_tetap',[FrontController::class, 'pola_pikir_tetap'])->name('pola_pikir_tetap');
+Route::get('/front_mindset',[FrontController::class, 'front_mindset'])->name('front_mindset');
+Route::get('/indikator_pola_pikir',[FrontController::class, 'indikator_pola_pikir'])->name('indikator_pola_pikir');
+Route::get('/kekayaan_lokal_jambi',[FrontController::class, 'kekayaan_lokal_jambi'])->name('kekayaan_lokal_jambi');
+
 Route::get('login',[AuthController::class,'login'])->name('login');
+Route::get('register',[AuthController::class, 'register'])->name('register');
+Route::post('/proses_register',[AuthController::class, 'proses_register'])->name('proses_register');
 Route::post('/proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/simpanjawaban', [JawabanController::class, 'simpanjawaban'])->name('simpanjawaban');
@@ -53,6 +63,10 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/kelas/mahasiswatambah', [KelasController::class, 'tambahmahasiswa'])->name('tambahmahasiswa');
     Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
     Route::delete('/mahasiswa/{id}', [KelasController::class, 'deletemahasiswa'])->name('deletemahasiswa');
+    Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
+    Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
+    Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
+    Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
 
     Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
     Route::post('/mindset/tambah', [PertanyaanController::class, 'tambahmindset'])->name('mindsettambah');
@@ -74,13 +88,18 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::get('/soalfront/edit/{id}', [PertanyaanController::class, 'soalfrontedit'])->name('soalfrontedit');
 
 
-
-
 });
 
 
 Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasiswa_')->group(function () {
-
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/kelas/{id}', [KelasController::class, 'siswaopen'])->name('siswaopen');
+    Route::get('/siswa_mindset', [MindsetSiswaController::class, 'index'])->name('siswamindset');
+    Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
+    Route::get('/siswa_mindset/open/{id}', [MindsetSiswaController::class, 'openmindset'])->name('siswaopenmindset');
+    Route::get('/mahasiswa/kerjakansoal/{id}',[MindsetSiswaController::class,'kerjakansoal'])->name('kerjakansoal');
+    
+});
+Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

@@ -131,7 +131,9 @@
             </div> <!-- content -->
 
             <footer class="footer">
-                © 2024 Universitas Jambi | Bug Report Unit IT.
+                © 2024 Universitas Jambi | Bug Report <a href="https://wa.me/6285162881477">Padepokan IT</a>.
+
+
             </footer>
 
         </div>
@@ -183,7 +185,7 @@
     @yield('javascript')
 
     <script>
-        
+
         @if(Session::has('pesan'))
 
         alertify.success("{{ Session::get('pesan') }}");

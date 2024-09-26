@@ -57,6 +57,7 @@
                 <a href="{{ route('welcome') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
 
                 <a href="{{ route('pembelajaran_pjbl') }}" class="nav-item nav-link {{ request()->is('pembelajaran_pjbl') ? 'active' : '' }}">Pembelajaran PjBL</a>
+                <a href="{{ route('kekayaan_lokal_jambi') }}" class="nav-item nav-link {{ request()->is('kekayaan_lokal_jambi') ? 'active' : '' }}">Kekayaan Lokal Jambi</a>
                 <a href="{{ route('brainstorming') }}" class="nav-item nav-link {{ request()->is('brainstorming') ? 'active' : '' }}">Brainstorming</a>
                 {{-- <a href="courses.html" class="nav-item nav-link">Courses</a> --}}
 
@@ -66,7 +67,7 @@
                     <div class="dropdown-menu fade-down m-0">
                         <a href="{{ route('instrumen') }}" class="dropdown-item {{ request()->is('instrumen') ? 'active' : '' }}">Instrumen</a>
                         <a href="{{ route('tespolapikir') }}" class="dropdown-item {{ request()->is('tespolapikir') ? 'active' : '' }}">Apa pola piker saya? </a>
-
+                        <a href="{{ route('indikator_pola_pikir') }}" class="dropdown-item {{ request()->is('indikator_pola_pikir') ? 'active' : '' }}">Indikator Pola Pikir </a>
                     </div>
                 </div>
                 <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact</a>

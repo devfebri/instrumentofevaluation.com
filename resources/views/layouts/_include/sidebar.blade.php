@@ -6,7 +6,6 @@
         <h5></h5>
     </div>
 </div>
-
 <div class="sidebar-inner slimscrollleft" style="font-family:revert-layer;font-size:14px;">
 
     <div id="sidebar-menu">
@@ -44,6 +43,21 @@
                     <span> Jawaban </span>
                 </a>
             </li>
+            @elseif(auth()->user()->role=='mahasiswa')
+            <li>
+                <a href="{{ route(auth()->user()->role.'_siswaopen',auth()->user()->kelas_id) }}" class="waves-effect">
+                    <i class="mdi mdi-buffer"></i>
+                    <span> Kelas </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route(auth()->user()->role.'_siswamindset') }}" class="waves-effect">
+
+                    <i class="mdi mdi-buffer"></i>
+                    <span> Mindset </span>
+                </a>
+            </li>
+
             @endif
         </ul>
     </div>
