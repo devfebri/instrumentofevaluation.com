@@ -18,10 +18,13 @@ class PertanyaanController extends Controller
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    $button .= '<a href="' . route(auth()->user()->role.'_siswaopenmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+
                     if(auth()->user()->role=='admin'){
+                        $button .= '<a href="' . route(auth()->user()->role. '_openmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     $button .= '<button class="tabledit-edit-button btn btn-sm btn-warning edit-post" data-id=' . $f->id . ' id="alertify-success" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>';
                     $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    }elseif(auth()->user()->role == 'mahasiswa'){
+                    $button .= '<a href="' . route(auth()->user()->role . '_siswaopenmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     }
                     $button .= '</div>';
                     $button .= '</div>';
