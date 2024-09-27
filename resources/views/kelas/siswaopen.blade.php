@@ -11,13 +11,14 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas  Matakuliah
-
+                        @if(auth()->user()->role!='mahasiswa')
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
                             Tambah Matakuliah
                         </button>
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
                             Tambah Tugas
                         </button>
+                        @endif
                     </h4>
                 </div>
             </div>

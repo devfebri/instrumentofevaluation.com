@@ -63,6 +63,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/kelas/mahasiswatambah', [KelasController::class, 'tambahmahasiswa'])->name('tambahmahasiswa');
     Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
     Route::delete('/mahasiswa/{id}', [KelasController::class, 'deletemahasiswa'])->name('deletemahasiswa');
+    Route::delete('/matakuliah/{id}', [KelasController::class, 'deletematakuliah'])->name('deletematakuliah');
     Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
     Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
     Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
@@ -97,9 +98,23 @@ Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasisw
     Route::get('/siswa_mindset', [MindsetSiswaController::class, 'index'])->name('siswamindset');
     Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
     Route::get('/siswa_mindset/open/{id}', [MindsetSiswaController::class, 'openmindset'])->name('siswaopenmindset');
-    Route::get('/mahasiswa/kerjakansoal/{id}',[MindsetSiswaController::class,'kerjakansoal'])->name('kerjakansoal');
-    
+    Route::get('/kerjakansoal/{id}',[MindsetSiswaController::class,'kerjakansoal'])->name('kerjakansoal');
 });
 Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
+    Route::post('/kelas/tambah', [KelasController::class, 'tambah'])->name('kelastambah');
+    Route::delete('/kelas/{id}', [KelasController::class, 'delete'])->name('kelasdelete');
+    Route::get('/kelas/open/{id}', [KelasController::class, 'open'])->name('kelasopen');
+    Route::post('/kelas/materitambah', [KelasController::class, 'tambahmateri'])->name('tambahmateri');
+    Route::delete('/materi/{id}', [KelasController::class, 'deletemateri'])->name('deletemateri');
+    Route::post('/kelas/mahasiswatambah', [KelasController::class, 'tambahmahasiswa'])->name('tambahmahasiswa');
+    Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
+    Route::delete('/mahasiswa/{id}', [KelasController::class, 'deletemahasiswa'])->name('deletemahasiswa');
+    Route::delete('/matakuliah/{id}', [KelasController::class, 'deletematakuliah'])->name('deletematakuliah');
+    Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
+    Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
+    Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
+    Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
 });

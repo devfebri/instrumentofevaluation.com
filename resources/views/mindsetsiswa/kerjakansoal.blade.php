@@ -24,13 +24,56 @@
                         <table id="datatable1" class="table table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Mindset</th>
-                                    <th>Jumlah Indikator</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 5%">No</th>
+                                    <th>Soal</th>
+                                    <th style="width: 35%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($soal as $key=>$row)
+                                <tr>
+                                    <td>{{ ++$key }}</td>
+                                    <td>{{ $row->soal }}</td>
+                                    <td>
+                                       <div class="form-group row">
+                                           <div class="col-md-9">
+                                               <div class="form-check-inline my-1">
+                                                   <div class="custom-control custom-radio">
+                                                       <input type="radio" id="pilihan1" name="customRadio" class="custom-control-input">
+                                                       <label class="custom-control-label" for="pilihan1">1</label>
+                                                   </div>
+                                               </div>
+                                               <div class="form-check-inline my-1">
+                                                   <div class="custom-control custom-radio">
+                                                       <input type="radio" id="pilihan2" name="customRadio" class="custom-control-input">
+                                                       <label class="custom-control-label" for="pilihan2">2</label>
+                                                   </div>
+                                               </div>
+                                               <div class="form-check-inline my-1">
+                                                   <div class="custom-control custom-radio">
+                                                       <input type="radio" id="pilihan3" name="customRadio" class="custom-control-input">
+                                                       <label class="custom-control-label" for="pilihan3">3</label>
+                                                   </div>
+                                               </div>
+                                               <div class="form-check-inline my-1">
+                                                   <div class="custom-control custom-radio">
+                                                       <input type="radio" id="pilihan4" name="customRadio" class="custom-control-input">
+                                                       <label class="custom-control-label" for="pilihan4">4</label>
+                                                   </div>
+                                               </div>
+                                               <div class="form-check-inline my-1">
+                                                   <div class="custom-control custom-radio">
+                                                       <input type="radio" id="pilihan5" name="customRadio" class="custom-control-input">
+                                                       <label class="custom-control-label" for="pilihan5">5</label>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+
+
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -49,31 +92,7 @@
 <script src="{{ asset('js/jquery-validation/jquery.validate.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-        var table = $('#datatable1').DataTable({
-            processing: true
-            , serverSide: true
-            , ajax: "{{ route(auth()->user()->role.'_mindset') }}"
-            , columns: [{
-                    data: null
-                    , sortable: false
-                    , render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1
-                    }
-                , }
-                , {
-                    data: 'nama_mindset'
-                    , name: 'nama_mindset'
-                }
-                , {
-                    data: 'jml_indikator'
-                    , name: 'jml_indikator'
-                }
-                , {
-                    data: 'action'
-                    , name: 'action'
-                }
-            ]
-        });
+        var table = $('#datatable1').DataTable();
     });
 
 </script>

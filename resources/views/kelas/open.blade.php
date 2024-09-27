@@ -11,15 +11,18 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas {{ $data->nama_kelas }}
-                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
-                            Tambah Matakuliah
-                        </button>
-                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
-                            Tambah Materi
-                        </button>
                         <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
                             Tambah Mahasiswa
                         </button>
+
+                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
+                            Tambah Matakuliah
+                        </button>
+
+                        {{-- <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
+                            Tambah Materi
+                        </button> --}}
+
                     </h4>
                 </div>
             </div>
@@ -50,7 +53,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card m-b-30">
-
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Mahasiswa</h4>
                         <table id="datatable1" class="table table-bordered" style="width:100%">
@@ -70,45 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="card m-b-30">
-                    <div class="card-body">
-                        <h4 class="mt-0 header-title">Materi </h4>
-                        <table id="datatable2" class="table table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Materi</th>
-                                    <th>Deskripsi</th>
-                                    <th>File</th>
-                                    <th>Link</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            {{-- <tbody>
-                                @foreach($materi as $key => $row)
-                                <tr>
-                                    <td>{{ $row->nama_materi }}</td>
-                            <td>{{ $row->deskripsi }}</td>
-                            <td>{{ $row->file }}</td>
-                            <td>{{ $row->link }}</td>
-                            <td>
-                                <div class="tabledit-toolbar btn-toolbar" style="text-align: center;">
-                                    <div class="btn-group btn-group-sm" style="float: none;">
-                                        <a href="#" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-primary"><span class="ti-shift-right"></span></a>
-                                    </div>
-                                </div>
-                            </td>
 
-                            </tr>
-                            @endforeach
-                            </tbody> --}}
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 </div>
@@ -195,7 +159,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-judul"> Tambah Mahasiswa</h5>
+                <h5 class="modal-title" id="modal-judul"> Tambah Tugas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -365,7 +329,8 @@
                             $('#form-matakuliah-tambah-edit').trigger("reset"); //form
                             $('#tambahmatakuliah-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
-                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                            var oTable = $('#datatablemk').dataTable(); //inialisasi datatable
+
                             oTable.fnDraw(false);
                             alertify.success('Berhasil membuat matakuliah');
                         },
@@ -426,7 +391,8 @@
                             $('#form-mahasiswa-tambah-edit').trigger("reset"); //form
                             $('#tambahmahasiswa-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
-                            var oTable = $('#datatable2').dataTable(); //inialisasi datatable
+                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+
                             oTable.fnDraw(false);
                             alertify.success('Berhasil Menambah Mahasiswa');
                         },
@@ -476,6 +442,28 @@
                     }
                 })
                 alertify.success('Kelas berhasil dihapus')
+            }, function() {
+                alertify.error('Cancel')
+            });
+        });
+        $('body').on('click', '.deletematakuliah', function(id) {
+            var dataid = $(this).attr('data-id');
+            var url = "{{ route(auth()->user()->role.'_deletematakuliah', ':dataid') }}";
+            urls = url.replace(':dataid', dataid);
+            alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
+                $.ajax({
+                    url: urls, //eksekusi ajax ke url ini
+                    type: 'delete'
+                    , success: function(data) { //jika sukses
+                        setTimeout(function() {
+                            var oTable = $('#datatablemk').dataTable();
+
+                            oTable.fnDraw(false); //reset datatable
+                            $('#tombol-hapus').text('Yakin');
+                        });
+                    }
+                })
+                alertify.success('Data berhasil dihapus')
             }, function() {
                 alertify.error('Cancel')
             });

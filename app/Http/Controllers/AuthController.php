@@ -46,7 +46,8 @@ class AuthController extends Controller
     public function proses_register(Request $request)
     {
         $validated = $request->validate([
-            'nim' => 'unique:users'
+            'nim' => 'unique:users',
+            'no_hp' => 'unique:users'
         ]);
         // dd($request->all());
         User::create([

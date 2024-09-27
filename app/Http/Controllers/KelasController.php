@@ -164,6 +164,12 @@ class KelasController extends Controller
             ->update(['kelas_id' => null]);
         return response()->json();
     }
+    public function deletematakuliah($id){
+        DB::table('matakuliah')
+            ->where('id', $id)
+            ->delete();
+        return response()->json();
+    }
 
     public function getMatakuliah($id, Request $request)
     {
@@ -189,7 +195,6 @@ class KelasController extends Controller
     }
     public function tambahmatakuliah(Request $request)
     {
-        // dd($request->all());
         $data = new Matakuliah();
         $data->kelas_id     = $request->kelas_id;
         $data->dosen_id     = $request->dosen_id;
@@ -200,7 +205,6 @@ class KelasController extends Controller
 
     public function openmatakuliah($id,Request $request)
     {
-        // dd($id);
         $matakuliah=Matakuliah::find($id);
         $kelas=Kelas::find($matakuliah->kelas_id);
         $data = Materi::where('matakuliah_id', $id)->where('kelas_id',$matakuliah->kelas_id)->orderBy('id', 'desc')->get();

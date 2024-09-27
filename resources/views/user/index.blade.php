@@ -18,17 +18,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <div class="card">
+            <div class="col-12 ">
+                <div class="card  m-b-30">
+
                     <div class="card-body">
+                        {{-- <h4 class=" header-title">Mahasiswa</h4> --}}
                         <table id="datatable1" class="table table-bordered" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Role</th>
+                                    <th>NIM/NIP</th>
                                     <th>Nama</th>
                                     <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Akses</th>
+                                    <th>Tempat Lahir</th>
+                                    <th>Tanggal Lahir</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>No HP</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -39,6 +45,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -56,9 +63,22 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">NIM/NIP</h6>
+                        <input type="number" class="form-control" name="nip" id="nip" required>
+                    </div>
+                    <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Name</h6>
                         <input type="text" class="form-control" name="name" id="name" required>
                     </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400">Jenis Kelamin</h6>
+                        <select class=" form-control mb-3 custom-select" name="jk" id="jk" style="width: 100%; height:36px;" required>
+                            <option value="">-pilih-</option>
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">No HP</h6>
                         <input type="number" class="form-control" name="no_hp" id="no_hp" required>
@@ -68,6 +88,14 @@
                         <input type="email" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Tempat Lahir</h6>
+                        <input type="text" class="form-control" name="tmpt_lahir" id="tmpt_lahir" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted fw-400 mt-3">Tanggal Lahir</h6>
+                        <input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" required>
+                    </div>
+                    <div class="form-group">
                         <h6 class="text-muted fw-400">Role</h6>
                         <select class=" form-control mb-3 custom-select" name="role" id="role" style="width: 100%; height:36px;" required>
                             <option value="">-pilih-</option>
@@ -75,6 +103,8 @@
                             <option value="dosen">Dosen</option>
                         </select>
                     </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -109,6 +139,14 @@
                     }
                 , },
                 {
+                    data: 'role'
+                    , name: 'role'
+                },
+                {
+                    data: 'nim'
+                    , name: 'nim'
+                },
+                {
                     data: 'name'
                     , name: 'name'
                 }
@@ -117,12 +155,20 @@
                     , name: 'username'
                 }
                 , {
-                    data: 'username'
-                    , name: 'username'
+                    data: 'tmpt_lahir'
+                    , name: 'tmpt_lahir'
                 }
                 , {
-                    data: 'role'
-                    , name: 'role'
+                    data: 'tgl_lahir'
+                    , name: 'tgl_lahir'
+                }
+                , {
+                    data: 'jk'
+                    , name: 'jk'
+                }
+                , {
+                    data: 'no_hp'
+                    , name: 'no_hp'
                 }
                 , {
                     data: 'action'

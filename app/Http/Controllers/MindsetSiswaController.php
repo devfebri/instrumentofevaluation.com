@@ -22,7 +22,8 @@ class MindsetSiswaController extends Controller
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
 
-                    $button .= '<a href="' . route('mahasiswa_kerjakansoal', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"onclick="return confirm(`Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?`);" ><span class="">Mulai</span></a>';
+                    // $button .= '<a href="' . route('mahasiswa_kerjakansoal', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"onclick="return confirm(`Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?`);" ><span class="">Mulai</span></a>';
+                    $button .= '<button data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"onclick="return confirm(`Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?`);" ><span class="">Mulai</span></button>';
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
@@ -38,6 +39,8 @@ class MindsetSiswaController extends Controller
     }
 
     public function kerjakansoal(){
-        return view('mindsetsiswa.kerjakansoal');
+
+        $soal=Soal::all();
+        return view('mindsetsiswa.kerjakansoal',compact('soal'));
     }
 }
