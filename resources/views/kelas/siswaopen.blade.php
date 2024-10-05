@@ -28,7 +28,7 @@
                 <div class="card m-b-30">
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Materi </h4>
-                        <table id="datatable2" class="table table-bordered" style="width:100%">
+                        <table id="datatable1" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -39,6 +39,11 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -49,7 +54,7 @@
                 <div class="card m-b-30">
                     <div class="card-body">
                         <h4 class="mt-0 header-title">Tugas </h4>
-                        <table id="datatable3" class="table table-bordered" style="width:100%">
+                        <table id="datatable2" class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>

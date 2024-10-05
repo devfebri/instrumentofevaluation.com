@@ -88,7 +88,9 @@
         <div class="" style="font-family:revert-layer;">
             <div class="card-body">
                 <h3 class="text-center mt-0 m-b-15 animate__animated animate__rotateIn">
-                    <img src="{{ asset('img/unja.png') }}" class="rounded-circle febri bg-white" height="100" alt="logo" data-tilt>
+                    <a href="{{ route('welcome') }}">
+                        <img src="{{ asset('img/unja.png') }}" class="rounded-circle febri bg-white" height="100" alt="logo" data-tilt>
+                    </a>
                 </h3>
                 <h3 style="font-family:Cursive;font-size:14pt;color:#fff;margin-bottom:-25px;" class="text-center animate__animated animate__fadeIn ">Instrumen To Fevaluation</h3>
 
@@ -124,7 +126,7 @@
                         <div class="form-group text-center row m-t-20">
                             <div class="col-12">
                                 <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Login</button>
-                                <a href="/registrasi" class="btn btn-secondary btn-block waves-effect waves-light">Registrasi</a>
+                                <a href="{{ route('register') }}" class="btn btn-secondary btn-block waves-effect waves-light">Registrasi</a>
                             </div>
                         </div>
 

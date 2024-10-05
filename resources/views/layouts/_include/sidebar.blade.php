@@ -45,7 +45,7 @@
             </li>
             @elseif(auth()->user()->role=='mahasiswa')
             <li>
-                <a href="{{ route(auth()->user()->role.'_siswaopen',auth()->user()->kelas_id) }}" class="waves-effect">
+                <a href="{{ route(auth()->user()->role.'_kelasopen',auth()->user()->kelas_id) }}" class="waves-effect">
                     <i class="mdi mdi-buffer"></i>
                     <span> Kelas </span>
                 </a>
@@ -58,15 +58,12 @@
                 </a>
             </li>
             @elseif(auth()->user()->role=='dosen')
-
             <li>
                 <a href="{{ route(auth()->user()->role.'_kelas') }}" class="waves-effect">
                     <i class="mdi mdi-clipboard"></i>
                     <span> Kelas </span>
                 </a>
             </li>
-
-
             @endif
         </ul>
     </div>

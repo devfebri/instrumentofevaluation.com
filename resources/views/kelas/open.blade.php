@@ -10,14 +10,18 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Kelas {{ $data->nama_kelas }}
-                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmahasiswa">
+                    <h4 class="page-title"> <a href="javascript:history.back()" class="btn btn-primary">Kembali</a> &nbsp;Kelas {{ $data->nama_kelas }}
+
+                        @if (auth()->user()->role=='admin')
+
+                        <button type="button" class="btn btn-primary ml-2 float-right btn-sm" id="tombol-tambahmahasiswa">
                             Tambah Mahasiswa
                         </button>
 
-                        <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmatakuliah">
+                        <button type="button" class="btn btn-primary ml-2 float-right btn-sm" id="tombol-tambahmatakuliah">
                             Tambah Matakuliah
                         </button>
+                        @endif
 
                         {{-- <button type="button" class="btn btn-primary ml-2  float-right btn-sm" id="tombol-tambahmateri">
                             Tambah Materi
@@ -62,7 +66,10 @@
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>No HP</th>
+                                    @if (auth()->user()->role=='admin')
+
                                     <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -219,6 +226,7 @@
                 data: 'nama_dosen'
                 , name: 'nama_dosen'
             }
+
             , {
                 data: 'action'
                 , name: 'action'
@@ -248,45 +256,48 @@
                 data: 'no_hp'
                 , name: 'no_hp'
             }
+            @if (auth()->user()->role=='admin')
+
             , {
                 data: 'action'
                 , name: 'action'
             }
+            @endif
         ]
     });
-    $('#datatable2').DataTable({
-        processing: true
-        , serverSide: true
-        , ajax:"{{ route(auth()->user()->role.'_kelasopen',$id) }}"
-        , columns: [{
-                data: null
-                , sortable: false
-                , render: function(data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1
-                }
-            , }
-            , {
-                data: 'nama_materi'
-                , name: 'nama_materi'
-            }
-            , {
-                data: 'deskripsi'
-                , name: 'deskripsi'
-            }
-            , {
-                data: 'file_materi'
-                , name: 'file_materi'
-            }
-            , {
-                data: 'link_materi'
-                , name: 'link_materi'
-            }
-            , {
-                data: 'action'
-                , name: 'action'
-            }
-        ]
-    });
+    // $('#datatable2').DataTable({
+    //     processing: true
+    //     , serverSide: true
+    //     , ajax:"{{ route(auth()->user()->role.'_kelasopen',$id) }}"
+    //     , columns: [{
+    //             data: null
+    //             , sortable: false
+    //             , render: function(data, type, row, meta) {
+    //                 return meta.row + meta.settings._iDisplayStart + 1
+    //             }
+    //         , }
+    //         , {
+    //             data: 'nama_materi'
+    //             , name: 'nama_materi'
+    //         }
+    //         , {
+    //             data: 'deskripsi'
+    //             , name: 'deskripsi'
+    //         }
+    //         , {
+    //             data: 'file_materi'
+    //             , name: 'file_materi'
+    //         }
+    //         , {
+    //             data: 'link_materi'
+    //             , name: 'link_materi'
+    //         }
+    //         , {
+    //             data: 'action'
+    //             , name: 'action'
+    //         }
+    //     ]
+    // });
 
     // $('#datatable3').DataTable();
     $(document).ready(function(){
@@ -309,6 +320,7 @@
             $('#tambahmatakuliah-edit-modal').modal('show');
         });
 
+        @if(auth()->user()->role=='dosen')
         if ($("#form-matakuliah-tambah-edit").length > 0) {
             $("#form-matakuliah-tambah-edit").validate({
                 submitHandler: function(form) {
@@ -372,6 +384,29 @@
                 }
             })
         }
+        // $('body').on('click', '.deletemateri', function(id) {
+        //     var dataid = $(this).attr('data-id');
+        //     var url = "{{ route(auth()->user()->role.'_deletemateri', ':dataid') }}";
+        //     urls = url.replace(':dataid', dataid);
+        //     alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
+        //         $.ajax({
+        //             url: urls, //eksekusi ajax ke url ini
+        //             type: 'delete'
+        //             , success: function(data) { //jika sukses
+        //                 setTimeout(function() {
+        //                     var oTable = $('#datatable2').dataTable();
+        //                     oTable.fnDraw(false); //reset datatable
+        //                     $('#tombol-hapus').text('Yakin');
+        //                 });
+        //             }
+        //         })
+        //         alertify.success('Data berhasil dihapus')
+        //     }, function() {
+        //         alertify.error('Cancel')
+        //     });
+        // });
+        @endif
+        @if(auth()->user()->role=='dosen')
         if ($("#form-mahasiswa-tambah-edit").length > 0) {
             $("#form-mahasiswa-tambah-edit").validate({
                 submitHandler: function(form) {
@@ -403,28 +438,6 @@
                 }
             })
         }
-        $('body').on('click', '.deletemateri', function(id) {
-            var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_deletemateri', ':dataid') }}";
-            urls = url.replace(':dataid', dataid);
-            alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
-                $.ajax({
-                    url: urls, //eksekusi ajax ke url ini
-                    type: 'delete'
-                    , success: function(data) { //jika sukses
-                        setTimeout(function() {
-                            var oTable = $('#datatable2').dataTable();
-                            oTable.fnDraw(false); //reset datatable
-                            $('#tombol-hapus').text('Yakin');
-                        });
-                    }
-                })
-                alertify.success('Data berhasil dihapus')
-            }, function() {
-                alertify.error('Cancel')
-            });
-        });
-
         $('body').on('click', '.deletemahasiswa', function(id) {
             var dataid = $(this).attr('data-id');
             var url = "{{ route(auth()->user()->role.'_deletemahasiswa', ':dataid') }}";
@@ -468,6 +481,10 @@
                 alertify.error('Cancel')
             });
         });
+        @endif
+
+
+
 
 
 

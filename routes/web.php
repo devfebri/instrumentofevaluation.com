@@ -51,6 +51,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/item/create', [ItemController::class, 'create'])->name('itemcreate');
 
     Route::get('/user',[UserController::class,'index'])->name('user');
+    Route::get('/getDosen', [UserController::class, 'getDosen'])->name('getDosen');
     Route::post('/user/tambah',[UserController::class,'tambah'])->name('usertambah');
     Route::delete('/user/{id}',[UserController::class,'delete'])->name('userdelete');
 
@@ -99,6 +100,13 @@ Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasisw
     Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
     Route::get('/siswa_mindset/open/{id}', [MindsetSiswaController::class, 'openmindset'])->name('siswaopenmindset');
     Route::get('/kerjakansoal/{id}',[MindsetSiswaController::class,'kerjakansoal'])->name('kerjakansoal');
+
+    Route::get('/kelas/open/{id}', [KelasController::class, 'open'])->name('kelasopen');
+    Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
+    Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
+    Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
+    Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
+    Route::post('/kirimTugas', [KelasController::class, 'kirimtugas'])->name('kirimtugas');
 });
 Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -108,13 +116,16 @@ Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(
     Route::delete('/kelas/{id}', [KelasController::class, 'delete'])->name('kelasdelete');
     Route::get('/kelas/open/{id}', [KelasController::class, 'open'])->name('kelasopen');
     Route::post('/kelas/materitambah', [KelasController::class, 'tambahmateri'])->name('tambahmateri');
-    Route::delete('/materi/{id}', [KelasController::class, 'deletemateri'])->name('deletemateri');
+    Route::post('/kelas/tugastambah', [KelasController::class, 'tambahtugas'])->name('tambahtugas');
+    Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
+    Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
     Route::post('/kelas/mahasiswatambah', [KelasController::class, 'tambahmahasiswa'])->name('tambahmahasiswa');
+
+    Route::delete('/materi/{id}', [KelasController::class, 'deletemateri'])->name('deletemateri');
+    Route::delete('/tugas/{id}', [KelasController::class, 'deletetugas'])->name('deletetugas');
     Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
     Route::delete('/mahasiswa/{id}', [KelasController::class, 'deletemahasiswa'])->name('deletemahasiswa');
     Route::delete('/matakuliah/{id}', [KelasController::class, 'deletematakuliah'])->name('deletematakuliah');
     Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
-    Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
-    Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
     Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
 });

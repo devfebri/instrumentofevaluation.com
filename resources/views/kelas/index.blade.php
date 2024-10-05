@@ -11,9 +11,11 @@
             <div class="col-sm-12">
                 <div class="page-title-box">
                     <h4 class="page-title">Kelas
+                        @if(auth()->user()->role=='admin')
                         <button type="button" class="btn btn-primary mb-2  float-right btn-sm" id="tombol-tambah">
                             Tambah Data
                         </button>
+                        @endif
                     </h4>
                 </div>
             </div>

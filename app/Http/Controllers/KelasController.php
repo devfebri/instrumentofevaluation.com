@@ -15,13 +15,21 @@ use Illuminate\Support\Facades\Storage;
 class KelasController extends Controller
 {
     public function index(Request $request){
-        $data = Kelas::all();
+        if(auth()->user()->role=='admin'){
+            $data = Kelas::all();
+        }elseif(auth()->user()->role=='dosen'){
+            $data=DB::table('matakuliah')
+            ->select('kelas.id', 'kelas.nama_kelas')
+            ->join('kelas', 'kelas.id', '=', 'matakuliah.kelas_id')
+            ->where('matakuliah.dosen_id', '=',auth()->user()->id)
+            ->get();
+        }
         if ($request->ajax()) {
             return datatables()->of($data)
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    $button .= '<a href="' . route('admin_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    $button .= '<a href="' . route(auth()->user()->role.'_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     // $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
                     $button .= '</div>';
                     $button .= '</div>';
@@ -44,9 +52,17 @@ class KelasController extends Controller
     }
 
     public function open($id,Request $request){
-        $id=$id;
 
-        $materi = Materi::where('kelas_id',$id)->orderBy('id','desc')->get();
+        // dd($id);
+
+        if (auth()->user()->role == 'admin') {
+            $materi = Materi::orderBy('id', 'desc')->get();
+        } elseif (auth()->user()->role == 'dosen') {
+            $materi = Materi::where('user_id',auth()->user()->id)->orderBy('id', 'desc')->get();
+        } elseif(auth()->user()->role == 'mahasiswa'){
+            $materi = Materi::where('kelas_id', auth()->user()->kelas_id)->where('matakuliah_id', $id)->orderBy('id', 'desc')->get();
+        }
+
         $data   = Kelas::find($id);
         $dosen  = User::where('role','dosen')->get();
 
@@ -60,8 +76,8 @@ class KelasController extends Controller
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    // $button .= '<a href="' . route('admin_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletemateri" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    // $button .= '<a href="' . route('admin_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
@@ -93,6 +109,7 @@ class KelasController extends Controller
     }
 
     public function tambahmateri(Request $request){
+
         if ($request->has('file_materi')) {
             $file = $request->file('file_materi');
             $filename = $file->getClientOriginalName() . '-' . time() . '.' . $file->extension();
@@ -102,11 +119,12 @@ class KelasController extends Controller
         }
         $data=new Materi;
         $data->kelas_id     = $request->kelas_id;
-        $data->user_id      = auth()->user()->id;
-        $data->nama_materi  = $request->nama_materi;
-        $data->deskripsi    = $request->deskripsi;
-        $data->link_materi  = $request->link_materi;
-        $data->file_materi  = $filename;
+        $data->matakuliah_id     = $request->matakuliah_id;
+        $data->user_id              = auth()->user()->id;
+        $data->nama_materi          = $request->nama_materi;
+        $data->deskripsi            = $request->deskripsi;
+        $data->link_materi          = $request->link_materi;
+        $data->file_materi          = $filename;
         $data->save();
         return response()->json($data);
     }
@@ -122,6 +140,40 @@ class KelasController extends Controller
         $data->delete();
         return response()->json($data);
     }
+    public function tambahtugas(Request $request)
+    {
+
+        if ($request->has('file_tugas')) {
+            $file = $request->file('file_tugas');
+            $filename = $file->getClientOriginalName() . '-' . time() . '.' . $file->extension();
+            $file->move(public_path() . '/storage/tugas/' . auth()->user()->username, $filename);
+        } else {
+            $filename = null;
+        }
+        $data = new Tugas();
+        $data->kelas_id             = $request->kelas_id;
+        $data->matakuliah_id        = $request->matakuliah_id;
+        $data->user_id              = auth()->user()->id;
+        $data->nama_tugas           = $request->nama_tugas;
+        $data->deskripsi            = $request->deskripsi;
+        $data->link_tugas           = $request->link_tugas;
+        $data->file_tugas           = $filename;
+        $data->save();
+        return response()->json($data);
+    }
+
+    public function deletetugas($id)
+    {
+        $data = Tugas::find($id);
+        $image = '/public/tugas/' . auth()->user()->username . '/' . $data->file_tugas;
+        // dd(Storage::exists($image));
+        if (Storage::exists($image)) {
+            Storage::delete($image);
+        }
+        $data->delete();
+        return response()->json($data);
+    }
+
 
     public function tambahmahasiswa(Request $request){
         foreach($request->mahasiswa as $row){
@@ -173,14 +225,34 @@ class KelasController extends Controller
 
     public function getMatakuliah($id, Request $request)
     {
-        $matakuliah=Matakuliah::orderBy('id','desc')->get();
+        if(auth()->user()->role=='admin'){
+            $matakuliah=Matakuliah::orderBy('id','desc')->get();
+        }elseif(auth()->user()->role=='dosen'){
+            $matakuliah=DB::table('matakuliah')
+            ->select('matakuliah.id','matakuliah.nama_mk', 'matakuliah.dosen_id', 'users.name')
+            ->join('kelas', 'kelas.id', '=', 'matakuliah.kelas_id')
+            ->join('users', 'users.id', '=', 'matakuliah.dosen_id')
+            ->where('matakuliah.dosen_id', '=', auth()->user()->id)
+            ->get();
+        } elseif (auth()->user()->role == 'mahasiswa'){
+            $matakuliah = DB::table('matakuliah')
+            ->select('matakuliah.id', 'matakuliah.nama_mk', 'matakuliah.dosen_id', 'users.name')
+            ->join('kelas', 'kelas.id', '=', 'matakuliah.kelas_id')
+            ->join('users', 'users.id', '=', 'matakuliah.dosen_id')
+            ->where('matakuliah.kelas_id', '=', auth()->user()->kelas_id)
+            ->get();
+        }
+
         if ($request->ajax()) {
             return datatables()->of($matakuliah)
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    $button .= '<a href="' . route('admin_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                    $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    $button .= '<a href="' . route(auth()->user()->role.'_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    if(auth()->user()->role=='admin'){
+
+                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    }
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
@@ -213,25 +285,65 @@ class KelasController extends Controller
 
     public function getTugas($id, Request $request)
     {
-        $tugas = Tugas::orderBy('id', 'desc')->get();
+        if (auth()->user()->role == 'admin') {
+            $tugas = Tugas::orderBy('id', 'desc')->get();
+        } elseif (auth()->user()->role == 'dosen') {
+            $tugas = Tugas::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
+        } elseif (auth()->user()->role == 'mahasiswa') {
+            $tugas = Tugas::where('kelas_id',auth()->user()->kelas_id)->where('matakuliah_id',$id)->orderBy('id', 'desc')->get();
+        }
+
         if ($request->ajax()) {
             return datatables()->of($tugas)
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    // $button .= '<a href="' . route('admin_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                    $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    // $button .= '<a href="' . route('admin_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    if(auth()->user()->role=='dosen'){
+                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletetugas" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    }elseif(auth()->user()->role == 'mahasiswa'){
+
+                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-primary inputtugas" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-upload"> Input</span></button>';
+                    }
+
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
                 })
-                ->rawColumns(['action', 'nama_dosen'])
+                ->addColumn('file_tugas', function ($f) {
+                    if ($f->file_tugas) {
+                        $username = User::find($f->user_id)->username;
+                        $button = '<a href="' . asset('storage/tugas/' . $username . '/' . $f->file_tugas) . '" target="_blank" style="margin: 5px;" >' . $f->file_tugas . '</a>';
+                    } else {
+                        $button = '';
+                    }
+                    return $button;
+                })
+                ->addColumn('link_tugas', function ($f) {
+                    if ($f->link_tugas != null) {
+
+                        $username = User::find($f->user_id)->username;
+                        $button = '<a href="' . $f->link_tugas . '" target="_blank" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-info" >Link</a>';
+                    } else {
+                        $button = '';
+                    }
+                    return $button;
+                })
+                ->rawColumns(['action', 'file_tugas', 'link_tugas'])
                 ->addIndexColumn()
                 ->make(true);
         }
     }
     public function siswaopen($id)
     {
+        $materi=Materi::where('kelas_id',auth()->user()->kelas_id)->get();
+        $tugas=Tugas::all();
         return view('kelas.siswaopen');
+    }
+
+
+    public function kirimtugas(Request $request)
+    {
+        dd($request->all());
     }
 }

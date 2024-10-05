@@ -14,7 +14,7 @@
                              <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Midset</h5>
                              <h1 class="display-3 text-white animated slideInDown">Pola Pikir Berkembang</h1>
                              <p class="fs-5 text-white mb-4 pb-2">Pola Pikir Berkembang (growth mindset) adalah keyakinan bahwa kemampuan dan kecerdasan seseorang dapat berkembang melalui usaha, belajar, dan pengalaman.</p>
-                             <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
+                             <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Login Sekarang</a>
                              <a href="{{ route('register') }}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Daftar Sekarang</a>
                          </div>
                      </div>
@@ -30,8 +30,9 @@
                              <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Mindset</h5>
                              <h1 class="display-3 text-white animated slideInDown">Pola Pikir tetap</h1>
                              <p class="fs-5 text-white mb-4 pb-2">Pola Pikir Tetap (fixed mindset) adalah keyakinan bahwa kemampuan, kecerdasan, dan bakat seseorang bersifat tetap dan tidak dapat diubah</p>
-                             <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
-                             <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Join Now</a>
+                             <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Login Sekarang</a>
+                             <a href="{{ route('register') }}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Daftar Sekarang</a>
+
                          </div>
                      </div>
                  </div>
