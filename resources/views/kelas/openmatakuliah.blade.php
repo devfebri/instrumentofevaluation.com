@@ -37,7 +37,6 @@
                                     <th>File</th>
                                     <th>Link</th>
                                      @if(auth()->user()->role=='dosen')
-
                                     <th>Aksi</th>
                                     @endif
                                 </tr>
@@ -63,7 +62,6 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-
                         </table>
                     </div>
                 </div>
@@ -154,7 +152,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal input tugas-->
 <div class="modal fade" id="tambah-inputtugas-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -167,18 +164,18 @@
             </div>
             <form class="needs-validation" id="form-inputtugas-tambah-edit" name="form-tugas-tambah-edit">
                 <div class="modal-body">
-                    <input type="text" name="tugas_id" id="tugas_id">
+                    <input type="hidden" name="tugas_id" id="tugas_id">
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
-                        <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="225" rows="3" required></textarea>
+                        <textarea id="deskripsi" name="deskripsi_jawaban" class="form-control" maxlength="225" rows="3" required></textarea>
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">File</h6>
-                        <input type="file" class="form-control" multiple name="file_tugas" id="file_tugas" >
+                        <input type="file" class="form-control"  name="file_jawaban" id="file_jawaban" >
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Link Tugas</h6>
-                        <textarea id="link_tugas" name="link_tugas" class="form-control" maxlength="225" rows="3" ></textarea>
+                        <textarea id="link_tugas" name="link_jawaban" class="form-control" maxlength="225" rows="3" ></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -283,11 +280,7 @@
         });
 
         @if (auth()->user()->role=='dosen')
-
-
         if ($("#form-tugas-tambah-edit").length > 0) {
-
-
             $("#form-tugas-tambah-edit").validate({
                 submitHandler: function(form) {
                     var actionType = $('#tombol-simpan').val();

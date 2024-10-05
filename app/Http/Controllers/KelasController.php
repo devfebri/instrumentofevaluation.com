@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
 use App\Models\Materi;
 use App\Models\Tugas;
+use App\Models\TugasJawaban;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -249,8 +250,8 @@ class KelasController extends Controller
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
                     $button .= '<a href="' . route(auth()->user()->role.'_matakuliahopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                    if(auth()->user()->role=='admin'){
 
+                    if(auth()->user()->role=='admin'){
                         $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletematakuliah" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
                     }
                     $button .= '</div>';
@@ -299,13 +300,23 @@ class KelasController extends Controller
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
                     // $button .= '<a href="' . route('admin_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    $button .= '<a href="' . route(auth()->user()->role.'_tugasjawaban', ['id' => $f->id]). '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     if(auth()->user()->role=='dosen'){
-                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletetugas" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        $jawaban=TugasJawaban::where('tugas_id',$f->id)->count();
+                        if($jawaban!=0){
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletetugas" disabled data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        }else{
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger deletetugas" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        }
                     }elseif(auth()->user()->role == 'mahasiswa'){
-
-                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-primary inputtugas" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-upload"> Input</span></button>';
+                        $jawaban=TugasJawaban::where('user_id',auth()->user()->id)->where('tugas_id',$f->id)->count();
+                        // dd($jawaban);
+                        if($jawaban!=0){
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-info inputtugas" disabled data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-upload"> Input</span></button>';
+                        }else{
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-primary inputtugas"  data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-upload"> Input</span></button>';
+                        }
                     }
-
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
@@ -344,6 +355,21 @@ class KelasController extends Controller
 
     public function kirimtugas(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        if ($request->has('file_jawaban')) {
+            $file = $request->file('file_jawaban');
+            $filename = $file->getClientOriginalName() . '-' . time() . '.' . $file->extension();
+            $file->move(public_path() . '/storage/tugasjawaban/' . auth()->user()->username, $filename);
+        } else {
+            $filename = null;
+        }
+        $data = new TugasJawaban();
+        $data->tugas_id                 = $request->tugas_id;
+        $data->user_id                  = auth()->user()->id;
+        $data->deskripsi_jawaban        = $request->deskripsi_jawaban;
+        $data->link_jawaban             = $request->link_tugas;
+        $data->file_jawaban             = $filename;
+        $data->save();
+        return response()->json($data);
     }
 }

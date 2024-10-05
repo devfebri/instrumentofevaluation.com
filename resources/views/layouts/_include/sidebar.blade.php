@@ -40,7 +40,7 @@
             <li>
                 <a href="#" class="waves-effect">
                     <i class="mdi mdi-buffer"></i>
-                    <span> Jawaban </span>
+                    <span> Jawaban Mindset</span>
                 </a>
             </li>
             @elseif(auth()->user()->role=='mahasiswa')

@@ -7,6 +7,7 @@ use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MindsetSiswaController;
 use App\Http\Controllers\PertanyaanController;
+use App\Http\Controllers\TugasJawabanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +90,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::delete('/soalfront/{id}', [PertanyaanController::class, 'soalfrontdelete'])->name('soalfrontdelete');
     Route::get('/soalfront/edit/{id}', [PertanyaanController::class, 'soalfrontedit'])->name('soalfrontedit');
 
+    Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
+
 
 });
 
@@ -128,4 +131,7 @@ Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(
     Route::delete('/matakuliah/{id}', [KelasController::class, 'deletematakuliah'])->name('deletematakuliah');
     Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
     Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
+
+    Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
+
 });

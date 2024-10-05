@@ -407,80 +407,80 @@
         // });
         @endif
         @if(auth()->user()->role=='dosen')
-        if ($("#form-mahasiswa-tambah-edit").length > 0) {
-            $("#form-mahasiswa-tambah-edit").validate({
-                submitHandler: function(form) {
-                    var actionType = $('#tombol-simpan').val();
-                    var simpan = $('#tombol-simpan').html('Sending..');
-                    var data = new FormData(form);
+            if ($("#form-mahasiswa-tambah-edit").length > 0) {
+                $("#form-mahasiswa-tambah-edit").validate({
+                    submitHandler: function(form) {
+                        var actionType = $('#tombol-simpan').val();
+                        var simpan = $('#tombol-simpan').html('Sending..');
+                        var data = new FormData(form);
+                        $.ajax({
+                            type: "POST", //karena simpan kita pakai method POST
+                            enctype: "multipart/form-data",
+                            url: "{{ route(auth()->user()->role.'_tambahmahasiswa') }}",
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            timeout: 600000,
+                            success: function (data) { //jika berhasil
+                                $('#form-mahasiswa-tambah-edit').trigger("reset"); //form
+                                $('#tambahmahasiswa-edit-modal').modal('hide'); //modal hide
+                                $('#tombol-simpan').html('Simpan'); //tombol simpan
+                                var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+
+                                oTable.fnDraw(false);
+                                alertify.success('Berhasil Menambah Mahasiswa');
+                            },
+                            error: function (data) { //jika error tampilkan error pada console
+                                $('#tombol-simpan').html('Simpan');
+                            }
+                        });
+                    }
+                })
+            }
+            $('body').on('click', '.deletemahasiswa', function(id) {
+                var dataid = $(this).attr('data-id');
+                var url = "{{ route(auth()->user()->role.'_deletemahasiswa', ':dataid') }}";
+                urls = url.replace(':dataid', dataid);
+                alertify.confirm('Apa anda yakin ingin menghapus mahasiswa ini dikelas ?', function() {
                     $.ajax({
-                        type: "POST", //karena simpan kita pakai method POST
-                        enctype: "multipart/form-data",
-                        url: "{{ route(auth()->user()->role.'_tambahmahasiswa') }}",
-                        data: data,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        timeout: 600000,
-                        success: function (data) { //jika berhasil
-                            $('#form-mahasiswa-tambah-edit').trigger("reset"); //form
-                            $('#tambahmahasiswa-edit-modal').modal('hide'); //modal hide
-                            $('#tombol-simpan').html('Simpan'); //tombol simpan
-                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
-
-                            oTable.fnDraw(false);
-                            alertify.success('Berhasil Menambah Mahasiswa');
-                        },
-                        error: function (data) { //jika error tampilkan error pada console
-                            $('#tombol-simpan').html('Simpan');
+                        url: urls, //eksekusi ajax ke url ini
+                        type: 'delete'
+                        , success: function(data) { //jika sukses
+                            setTimeout(function() {
+                                var oTable = $('#datatable1').dataTable();
+                                oTable.fnDraw(false); //reset datatable
+                                $('#tombol-hapus').text('Yakin');
+                            });
                         }
-                    });
-                }
-            })
-        }
-        $('body').on('click', '.deletemahasiswa', function(id) {
-            var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_deletemahasiswa', ':dataid') }}";
-            urls = url.replace(':dataid', dataid);
-            alertify.confirm('Apa anda yakin ingin menghapus mahasiswa ini dikelas ?', function() {
-                $.ajax({
-                    url: urls, //eksekusi ajax ke url ini
-                    type: 'delete'
-                    , success: function(data) { //jika sukses
-                        setTimeout(function() {
-                            var oTable = $('#datatable1').dataTable();
-                            oTable.fnDraw(false); //reset datatable
-                            $('#tombol-hapus').text('Yakin');
-                        });
-                    }
-                })
-                alertify.success('Kelas berhasil dihapus')
-            }, function() {
-                alertify.error('Cancel')
+                    })
+                    alertify.success('Kelas berhasil dihapus')
+                }, function() {
+                    alertify.error('Cancel')
+                });
             });
-        });
-        $('body').on('click', '.deletematakuliah', function(id) {
-            var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_deletematakuliah', ':dataid') }}";
-            urls = url.replace(':dataid', dataid);
-            alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
-                $.ajax({
-                    url: urls, //eksekusi ajax ke url ini
-                    type: 'delete'
-                    , success: function(data) { //jika sukses
-                        setTimeout(function() {
-                            var oTable = $('#datatablemk').dataTable();
+            $('body').on('click', '.deletematakuliah', function(id) {
+                var dataid = $(this).attr('data-id');
+                var url = "{{ route(auth()->user()->role.'_deletematakuliah', ':dataid') }}";
+                urls = url.replace(':dataid', dataid);
+                alertify.confirm('Apa anda yakin ingin menghapus data ini ?', function() {
+                    $.ajax({
+                        url: urls, //eksekusi ajax ke url ini
+                        type: 'delete'
+                        , success: function(data) { //jika sukses
+                            setTimeout(function() {
+                                var oTable = $('#datatablemk').dataTable();
 
-                            oTable.fnDraw(false); //reset datatable
-                            $('#tombol-hapus').text('Yakin');
-                        });
-                    }
-                })
-                alertify.success('Data berhasil dihapus')
-            }, function() {
-                alertify.error('Cancel')
+                                oTable.fnDraw(false); //reset datatable
+                                $('#tombol-hapus').text('Yakin');
+                            });
+                        }
+                    })
+                    alertify.success('Data berhasil dihapus')
+                }, function() {
+                    alertify.error('Cancel')
+                });
             });
-        });
         @endif
 
 
