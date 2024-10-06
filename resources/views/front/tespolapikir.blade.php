@@ -101,6 +101,7 @@
                         @endphp
                         <div class="form-group mb-1">
                             <label for="formGroupExampleInput2"><b>{{ ++$key }}. {{ $row->soal }}</b> </label>
+
                             <br>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="jawaban[{{ $key }}]" id="inlineRadio1{{ $key }}" value="1" >

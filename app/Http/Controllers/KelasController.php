@@ -334,7 +334,7 @@ class KelasController extends Controller
                     if ($f->link_tugas != null) {
 
                         $username = User::find($f->user_id)->username;
-                        $button = '<a href="' . $f->link_tugas . '" target="_blank" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-info" >Link</a>';
+                        $button = '<a href="' . url($f->link_tugas) . '" target="_blank" style="margin: 5px;" class="tabledit-edit-button btn btn-sm btn-info" >Link</a>';
                     } else {
                         $button = '';
                     }
@@ -367,7 +367,7 @@ class KelasController extends Controller
         $data->tugas_id                 = $request->tugas_id;
         $data->user_id                  = auth()->user()->id;
         $data->deskripsi_jawaban        = $request->deskripsi_jawaban;
-        $data->link_jawaban             = $request->link_tugas;
+        $data->link_jawaban             = $request->link_jawaban;
         $data->file_jawaban             = $filename;
         $data->save();
         return response()->json($data);

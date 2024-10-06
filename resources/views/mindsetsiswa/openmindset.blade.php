@@ -40,31 +40,29 @@
     </div>
 </div>
 
-<!--  Modal content for the above example -->
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+<div class="modal fade" id="tambah-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" id="modal-judul">Kerjakan Mindset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <p>Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.</p>
-                <p>Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Vivamus sagittis lacus vel
-                    augue laoreet rutrum faucibus dolor auctor.</p>
-                <p>Aenean lacinia bibendum nulla sed consectetur.
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor
-                    fringilla.</p>
+            <form class="needs-validation" id="form-tambah-edit" name="form-tambah-edit">
+                <div class="modal-body" id="form">
+
+
+
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="tombol-simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -74,6 +72,107 @@
 <script src='{{ asset('template/assets/plugins/select2/select2.min.js') }}'></script>
 <script src="{{ asset('js/jquery-validation/jquery.validate.min.js') }}"></script>
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('body').on('click', '.mulai', function(id) {
+        var dataid = $(this).attr('data-id');
+        var url = "{{ route(auth()->user()->role.'_getSoal', ':dataid') }}";
+        urls = url.replace(':dataid', dataid);
+        var soal='';
+        var key=1;
+
+        alertify.confirm('Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?', function(){
+            $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
+            $('#tambah-edit-modal').modal('show');
+            $('#form').html('');
+            $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: urls,
+                dataType: 'json',
+                success: function (data) {
+                    $('#modal-judul').html('Mengerjakan Mindset Pada Indikator "'+data['indikator']['nama_indikator']+'"')
+                    $.each(data['soal'], function(index, item) {
+                        console.log(item);
+                        console.log(index);
+
+                        soal+=`<div class="form-group mb-1">
+                            <label for="formGroupExampleInput2"><b>`+key+`. `+item['soal']+` ?</b> </label>
+                            <input type="hidden" name="indikator_id" value="`+data['indikator']['id']+`">
+                            <input type="hidden" name="mindset_id" value="`+data['mindset']['id']+`">
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jawaban[`+key+`]" id="inlineRadio1`+key+`" value="1#`+item['id']+`">
+                                <label class="form-check-label" for="inlineRadio1`+key+`">Sangat Tidak Setuju</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jawaban[`+key+`]" id="inlineRadio2`+key+`" value="2#`+item['id']+`">
+                                <label class="form-check-label" for="inlineRadio2`+key+`">Tidak Setuju</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jawaban[`+key+`]" id="inlineRadio3`+key+`" value="3#`+item['id']+`">
+                                <label class="form-check-label" for="inlineRadio3`+key+`">Netral </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jawaban[`+key+`]" id="inlineRadio4`+key+`" value="4#`+item['id']+`">
+                                <label class="form-check-label" for="inlineRadio4`+key+`">Setuju </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="jawaban[`+key+`]" id="inlineRadio5`+key+`" value="5#`+item['id']+`">
+                                <label class="form-check-label" for="inlineRadio5`+key+`">Sangat Setuju </label>
+                            </div>
+                        </div>
+                        <br>`;
+                        ++key;
+
+
+                    });
+                    $('#form').append(soal);
+                },error:function(data){
+                    console.log(data);
+                }
+            });
+         });
+
+        // alert('ok');
+
+    });
+
+    if ($("#form-tambah-edit").length > 0) {
+            $("#form-tambah-edit").validate({
+                submitHandler: function(form) {
+                    var actionType = $('#tombol-simpan').val();
+                    var simpan = $('#tombol-simpan').html('Sending..');
+                    var data = new FormData(form);
+
+                    $.ajax({
+                        type: "POST", //karena simpan kita pakai method POST
+                        enctype: "multipart/form-data",
+                        url: "{{ route(auth()->user()->role.'_siswakirimtugas') }}",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) { //jika berhasil
+                            $('#form-tambah-edit').trigger("reset"); //form
+                            $('#tambah-edit-modal').modal('hide'); //modal hide
+                            $('#tombol-simpan').html('Simpan'); //tombol simpan
+                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                            oTable.fnDraw(false);
+                            alertify.success('Berhasil Mengerjakan Soal');
+                        },
+                        error: function (data) { //jika error tampilkan error pada console
+                            $('#tombol-simpan').html('Simpan');
+                        }
+                    });
+                }
+            })
+        }
+
     $(document).ready(function() {
         var table = $('#datatable1').DataTable({
             processing: true

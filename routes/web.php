@@ -92,6 +92,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
 
     Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
 
+    Route::get('/mindset/open/openjawaban/{id}',[MindsetSiswaController::class,'mahasiswajawaban'])->name('jawaban');
+
 
 });
 
@@ -110,7 +112,12 @@ Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasisw
     Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
     Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
     Route::post('/kirimTugas', [KelasController::class, 'kirimtugas'])->name('kirimtugas');
+    Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
+    Route::get('/getSoal/{id}',[MindsetSiswaController::class,'getSoal'])->name('getSoal');
+    Route::post('/siswakirimtugas',[MindsetSiswaController::class,'siswakirimtugas'])->name('siswakirimtugas');
 });
+
+
 Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

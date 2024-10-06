@@ -30,19 +30,19 @@
                 </a>
             </li>
             <li class="has_sub">
-                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-calendar-text"></i> <span> Pertanyaan </span> <span class="float-right"><i class="mdi mdi mdi-chevron-right"></i></span></a>
+                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-calendar-text"></i> <span> Mindset </span> <span class="float-right"><i class="mdi mdi mdi-chevron-right"></i></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{ route(auth()->user()->role.'_soalfront') }}">Halaman Depan</a></li>
 
                     <li><a href="{{ route(auth()->user()->role.'_mindset') }}">Mahasiswa</a></li>
                 </ul>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#" class="waves-effect">
                     <i class="mdi mdi-buffer"></i>
                     <span> Jawaban Mindset</span>
                 </a>
-            </li>
+            </li> --}}
             @elseif(auth()->user()->role=='mahasiswa')
             <li>
                 <a href="{{ route(auth()->user()->role.'_kelasopen',auth()->user()->kelas_id) }}" class="waves-effect">

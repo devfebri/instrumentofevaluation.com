@@ -38,7 +38,7 @@
                                             $username = App\Models\User::find($row->user_id)->username;
                                         @endphp
                                         @if($row->file_jawaban!=null)
-                                            <a href="{{ asset('storage/tugasjawaban/' . $username . '/' . $row->file_jawaban) }}" target="_blank" class="btn btn-primary btn-sm">Link</a>
+                                            <a href="{{ asset('storage/tugasjawaban/' . $username . '/' . $row->file_jawaban) }}" target="_blank" class="btn btn-primary btn-sm">File</a>
                                         @endif
                                     </td>
                                     <td>
