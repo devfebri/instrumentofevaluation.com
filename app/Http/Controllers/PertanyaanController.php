@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Indikator;
+use App\Models\Mahasiswa;
+use App\Models\MahasiswaJawaban;
+use App\Models\MahasiswaNilai;
 use App\Models\Mindset;
 use App\Models\Soal;
 use App\Models\SoalFront;
@@ -98,6 +101,11 @@ class PertanyaanController extends Controller
 
     public function deleteindikator($id){
         $data=Indikator::find($id);
+        $mn=MahasiswaNilai::where('indikator_id',$id);
+        foreach($mn->get() as $row){
+            MahasiswaJawaban::where('mahasiswa_nilai_id',$row->id)->delete();
+        }
+        $mn->delete();
         $data->delete();
         return response()->json($data);
     }
