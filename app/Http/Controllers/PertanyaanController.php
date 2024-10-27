@@ -24,10 +24,15 @@ class PertanyaanController extends Controller
 
                     if(auth()->user()->role=='admin'){
                         $button .= '<a href="' . route(auth()->user()->role. '_openmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                    $button .= '<button class="tabledit-edit-button btn btn-sm btn-warning edit-post" data-id=' . $f->id . ' id="alertify-success" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>';
-                    $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        $button .= '<button class="tabledit-edit-button btn btn-sm btn-warning edit-post" data-id=' . $f->id . ' id="alertify-success" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>';
+                        $indikator  = Indikator::where('mindset_id', $f->id)->count();
+                        if($indikator==0){
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        }else{
+                            $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                        }
                     }elseif(auth()->user()->role == 'mahasiswa'){
-                    $button .= '<a href="' . route(auth()->user()->role . '_siswaopenmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                        $button .= '<a href="' . route(auth()->user()->role . '_siswaopenmindset', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
                     }
                     $button .= '</div>';
                     $button .= '</div>';
@@ -64,6 +69,11 @@ class PertanyaanController extends Controller
         }
 
         return response()->json($message);
+    }
+
+    public function deletemindset($id){
+        $data=Mindset::find($id)->delete();
+        return response()->json($data);
     }
 
     public function openmindset($id,Request $request){
@@ -152,10 +162,21 @@ class PertanyaanController extends Controller
 
     public function tambahSoal(Request $request)
     {
-        $data = new Soal();
-        $data->indikator_id = $request->indikator_id;
-        $data->soal = $request->soal;
-        $data->save();
+        if($request->id){
+            $data=Soal::find($request->id)->update(['soal'=>$request->soal]);
+        }else{
+            $data = new Soal();
+            $data->indikator_id = $request->indikator_id;
+            $data->soal = $request->soal;
+            $data->save();
+        }
+
+        return response()->json($data);
+    }
+
+    public function editsoal ($id){
+        $data = Soal::find($id);
+        // dd($id);
         return response()->json($data);
     }
 

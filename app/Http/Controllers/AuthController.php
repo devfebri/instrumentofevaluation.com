@@ -28,8 +28,16 @@ class AuthController extends Controller
 
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            if(auth()->user()->role=='mahasiswa'){
+                if(auth()->user()->kelas_id==null){
+                    return redirect('/login')->with('gagal', 'Silahkan hubungi admin untuk mendaftarkan anda ke dalam kelas');
+                }else{
+                    return redirect(route(auth()->user()->role . '_dashboard'))->with('pesan', 'Selamat datang kembali "' . auth()->user()->name . '"');
+                }
+            }else{
+                return redirect(route(auth()->user()->role . '_dashboard'))->with('pesan', 'Selamat datang kembali "' . auth()->user()->name . '"');
+            }
 
-            return redirect(route(auth()->user()->role . '_dashboard'))->with('pesan', 'Selamat datang kembali "' . auth()->user()->name . '"');
         } else {
             return redirect('/')->with('gagal', 'Periksa Username dan Password anda');
         }

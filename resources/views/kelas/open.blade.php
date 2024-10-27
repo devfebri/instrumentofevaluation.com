@@ -320,7 +320,8 @@
             $('#tambahmatakuliah-edit-modal').modal('show');
         });
 
-        @if(auth()->user()->role=='dosen')
+        @if(auth()->user()->role=='dosen'||auth()->user()->role=='admin')
+
         if ($("#form-matakuliah-tambah-edit").length > 0) {
             $("#form-matakuliah-tambah-edit").validate({
                 submitHandler: function(form) {
@@ -406,7 +407,7 @@
         //     });
         // });
         @endif
-        @if(auth()->user()->role=='dosen')
+        @if(auth()->user()->role=='dosen'||auth()->user()->role=='admin')
             if ($("#form-mahasiswa-tambah-edit").length > 0) {
                 $("#form-mahasiswa-tambah-edit").validate({
                     submitHandler: function(form) {

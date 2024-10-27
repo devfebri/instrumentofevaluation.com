@@ -134,7 +134,9 @@
             </div>
             <div class="modal-body" style="display: none" id="hasil">
 
-                <h1 id="skor">Skor Anda :  </h1>
+                <img src="{{ asset('img/4.png') }}" width="300px" height="200px" id="my_image" class="rounded mx-auto d-block" alt="">
+                <h3 class="text-center" id="skor">Skor Anda :  </h3>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-modal-close">Close</button>
@@ -171,11 +173,7 @@
             // alert('ok');
             $('#form').show();
             $('#hasil').hide();
-
-
             $('#exampleModal').modal('show');
-
-
         });
         $('#btn-modal-close').on('click',function(){
             $('#exampleModal').modal('hide');
@@ -197,12 +195,21 @@
                             $('#tambah-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
                             if(data=='error'){
-                                alert('Silahkan isi seluruh soal terlebih dahulu');
+                                alert('Silahkan isi seluruh pertanyaan terlebih dahulu');
                             }else{
                                 // alert(data);
                                 $('#form').hide();
                                 $('#hasil').show();
                                 $('#skor').html("Skor Anda : "+data);
+                                if(data>=75){
+                                    $("#my_image").attr("src","{{ asset('img/4.png') }}");
+                                }else if(data>=50){
+                                    $("#my_image").attr("src","{{ asset('img/3.png') }}");
+                                }else if(data>=25){
+                                    $("#my_image").attr("src","{{ asset('img/2.png') }}");
+                                }else if(data>=0){
+                                    $("#my_image").attr("src","{{ asset('img/1.png') }}");
+                                }
                                 $('#btnsimpan').attr('disabled',true);
 
                             }

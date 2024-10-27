@@ -97,7 +97,7 @@
                     <input type="hidden" name="role" id="role" value="mahasiswa">
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">NIM</h6>
-                        <input type="number" class="form-control" name="nim" id="nim" required>
+                        <input type="text" class="form-control" name="nim" id="nim" required>
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Name</h6>

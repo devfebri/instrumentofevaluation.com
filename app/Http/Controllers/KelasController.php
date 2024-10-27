@@ -30,8 +30,12 @@ class KelasController extends Controller
                 ->addColumn('action', function ($f) {
                     $button  = '<div class="tabledit-toolbar btn-toolbar" style="text-align: center;">';
                     $button .= '<div class="btn-group btn-group-sm" style="float: none;">';
-                    $button .= '<a href="' . route(auth()->user()->role.'_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary edit-post" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
-                    // $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . ' disabled style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    $button .= '<a href="' . route(auth()->user()->role.'_kelasopen', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"><span class="ti-receipt"></span></a>';
+                    if(auth()->user()->role=='admin'){
+
+                        $button .= '<button class="tabledit-edit-button btn btn-sm btn-warning edit-post" data-id=' . $f->id . ' id="alertify-success" style="float: none; margin: 5px;"><span class="ti-pencil"></span></button>';
+                        $button .= '<button class="tabledit-delete-button btn btn-sm btn-danger delete" data-id=' . $f->id . '  style="float: none; margin: 5px;"><span class="ti-trash"></span></button>';
+                    }
                     $button .= '</div>';
                     $button .= '</div>';
                     return $button;
@@ -45,11 +49,36 @@ class KelasController extends Controller
 
     public function tambah(Request $request)
     {
-        // dd($request->all());
-        $data = new Kelas();
-        $data->nama_kelas = $request->nama_kelas;
-        $data->save();
+        if($request->id)
+        {
+            $data=Kelas::find($request->id)->update(['nama_kelas'=>$request->nama_kelas]);
+            // dd($request->all());
+        }else{
+
+            $data = new Kelas();
+            $data->nama_kelas = $request->nama_kelas;
+            $data->save();
+        }
         return response()->json($data);
+    }
+
+    public function kelasedit($id){
+        $data=Kelas::find($id);
+        return response()->json($data);
+    }
+
+    public function delete($id){
+        $kelas=Kelas::find($id);
+        Matakuliah::where('kelas_id',$id)->delete();
+        Materi::where('kelas_id', $id)->delete();
+        $tugas=Tugas::where('kelas_id', $id)->get();
+        foreach($tugas as $row){
+            TugasJawaban::where('tugas_id',$row->id)->delete();
+        }
+        Tugas::where('kelas_id', $id)->delete();
+        User::where('kelas_id',$id)->update(['kelas_id'=>null]);
+        $kelas->delete();
+        return response()->json($kelas);
     }
 
     public function open($id,Request $request){
@@ -268,6 +297,7 @@ class KelasController extends Controller
     }
     public function tambahmatakuliah(Request $request)
     {
+        // dd($request->all());
         $data = new Matakuliah();
         $data->kelas_id     = $request->kelas_id;
         $data->dosen_id     = $request->dosen_id;

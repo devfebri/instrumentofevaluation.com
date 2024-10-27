@@ -70,6 +70,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
     Route::post('/kelas/matakuliahtambah', [KelasController::class, 'tambahmatakuliah'])->name('tambahmatakuliah');
     Route::get('/kelas/matakuliah/open/{id}', [KelasController::class, 'openmatakuliah'])->name('matakuliahopen');
     Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
+    Route::get('/kelas/edit/{id}', [KelasController::class, 'kelasedit'])->name('kelasedit');
 
     Route::get('/mindset', [PertanyaanController::class, 'mindset'])->name('mindset');
     Route::post('/mindset/tambah', [PertanyaanController::class, 'tambahmindset'])->name('mindsettambah');

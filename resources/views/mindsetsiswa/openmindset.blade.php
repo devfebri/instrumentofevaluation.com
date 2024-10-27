@@ -26,7 +26,8 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Indikator</th>
-                                    <th>Jumlah Soal</th>
+                                    <th>Jumlah Pertanyaan</th>
+                                    <th>Nilai</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -50,11 +51,19 @@
                 </button>
             </div>
             <form class="needs-validation" id="form-tambah-edit" name="form-tambah-edit">
-                <div class="modal-body" id="form">
+                <div class="modal-body" style="display: none" id="form">
 
 
 
-            </div>
+
+                </div>
+                <div class="modal-body" style="display: none" id="hasil">
+
+                    <img src="{{ asset('img/4.png') }}" width="300px" height="200px" id="my_image" class="rounded mx-auto d-block" alt="">
+                    <h3 class="text-center" id="skor">Skor Anda : </h3>
+
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" id="tombol-simpan" class="btn btn-primary">Simpan</button>
@@ -79,13 +88,17 @@
     });
 
     $('body').on('click', '.mulai', function(id) {
+         $('#form').show();
+         $('#hasil').hide();
+
         var dataid = $(this).attr('data-id');
         var url = "{{ route(auth()->user()->role.'_getSoal', ':dataid') }}";
         urls = url.replace(':dataid', dataid);
         var soal='';
         var key=1;
 
-        alertify.confirm('Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?', function(){
+        alertify.confirm('Pengerjaan mindset hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan pertanyaan ini ?', function(){
+
             $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
             $('#tambah-edit-modal').modal('show');
             $('#form').html('');
@@ -159,11 +172,24 @@
                         timeout: 600000,
                         success: function (data) { //jika berhasil
                             $('#form-tambah-edit').trigger("reset"); //form
-                            $('#tambah-edit-modal').modal('hide'); //modal hide
+                            $('#hasil').hide();
+                            $('#hasil').show();
+                            $('#skor').html("Skor Anda : "+data);
+                            if(data>=75){
+                                $("#my_image").attr("src","{{ asset('img/4.png') }}");
+                            }else if(data>=50){
+                                $("#my_image").attr("src","{{ asset('img/3.png') }}");
+                            }else if(data>=25){
+                                $("#my_image").attr("src","{{ asset('img/2.png') }}");
+                            }else if(data>=0){
+                                $("#my_image").attr("src","{{ asset('img/1.png') }}");
+                            }
+
+                            // $('#tambah-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
                             var oTable = $('#datatable1').dataTable(); //inialisasi datatable
                             oTable.fnDraw(false);
-                            alertify.success('Berhasil Mengerjakan Soal');
+                            alertify.success('Berhasil Mengerjakan Pertanyaan');
                         },
                         error: function (data) { //jika error tampilkan error pada console
                             $('#tombol-simpan').html('Simpan');
@@ -192,6 +218,9 @@
                 , {
                     data: 'jml_soal'
                     , name: 'jml_soal'
+                }, {
+                    data: 'nilai'
+                    , name: 'nilai'
                 }
                 , {
                     data: 'action'

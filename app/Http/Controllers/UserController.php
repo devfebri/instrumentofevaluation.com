@@ -29,7 +29,7 @@ class UserController extends Controller
                     return $button;
                 })
                 ->rawColumns(['action','kelas'])
-                ->addIndexColumn()
+            ->addIndexColumn()
                 ->make(true);
         }
         return view('user.index',compact('kelas'));

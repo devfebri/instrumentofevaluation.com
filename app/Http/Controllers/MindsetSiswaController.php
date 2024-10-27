@@ -20,6 +20,7 @@ class MindsetSiswaController extends Controller
         $mindset = Mindset::find($id);
         $data = Indikator::where('mindset_id', $id)->get();
 
+
         if ($request->ajax()) {
             return datatables()->of($data)
                 ->addColumn('action', function ($f) {
@@ -28,11 +29,9 @@ class MindsetSiswaController extends Controller
                     // $button .= '<a href="' . route('mahasiswa_kerjakansoal', ['id' => $f->id]) . '" class="tabledit-edit-button btn btn-sm btn-primary" style="float: none; margin: 5px;"onclick="return confirm(`Pengerjakan soal hanya bisa 1 kali pengerjaan saja, apakah anda yakin ingin mengerjakan soal ?`);" ><span class="">Mulai</span></a>';
                      $mahasiswanilai=MahasiswaNilai::where('mindset_id',$f->mindset_id)->where('user_id',auth()->user()->id)->where('indikator_id',$f->id)->count();
                      if($mahasiswanilai!=0){
-                    $button .= '<button  class="tabledit-edit-button btn btn-sm btn-info " disabled  style="float: none; margin: 5px;" ><span class="">Selesai</span></button>';
-
+                        $button .= '<button  class="tabledit-edit-button btn btn-sm btn-info " disabled  style="float: none; margin: 5px;" ><span class="">Selesai</span></button>';
                      }else{
-
-                         $button .= '<button  class="tabledit-edit-button btn btn-sm btn-primary mulai" data-id="'.$f->id.'" style="float: none; margin: 5px;" ><span class="">Mulai</span></button>';
+                        $button .= '<button  class="tabledit-edit-button btn btn-sm btn-primary mulai" data-id="'.$f->id.'" style="float: none; margin: 5px;" ><span class="">Mulai</span></button>';
                      }
                     $button .= '</div>';
                     $button .= '</div>';
@@ -40,8 +39,20 @@ class MindsetSiswaController extends Controller
                 })->addColumn('jml_soal', function ($f) {
                     $button  = Soal::where('indikator_id', $f->id)->count();
                     return $button;
-                })
-                ->rawColumns(['action', 'jml_indikator'])
+                })->addColumn('nilai', function ($f) {
+                $d  = MahasiswaNilai::where('indikator_id',$f->id);
+                $jmlpenilai=$d->count();
+                if($jmlpenilai!=0){
+
+                    $jmlnilai= $d->sum('skor');
+                    $button=$jmlnilai/$jmlpenilai;
+                }else{
+                    $button=0;
+                }
+                // dd($jmlnilai);
+                return $button;
+            })
+                ->rawColumns(['action', 'jml_indikator','nilai'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -94,7 +105,7 @@ class MindsetSiswaController extends Controller
         } else {
             $data = 'error';
         }
-        return response()->json($mn);
+        return response()->json($data);
     }
 
     public function mahasiswajawaban($id){

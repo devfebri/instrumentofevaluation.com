@@ -142,7 +142,7 @@
             var url = "{{ route(auth()->user()->role.'_kelasdelete', ':dataid') }}";
 
             urls = url.replace(':dataid', dataid);
-            alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
+            alertify.confirm('Seluruh data yang berkaitan pada kelas ini akan ikut terhapus, apa anda yakin ?', function() {
                 $.ajax({
                     url: urls, //eksekusi ajax ke url ini
                     type: 'delete'
@@ -159,6 +159,24 @@
                 alertify.error('Cancel')
             });
         });
+        @if (auth()->user()->role=='admin')
+
+
+          $('body').on('click', '.edit-post', function () {
+             var data_id = $(this).data('id');
+             var url = "{{ route(auth()->user()->role.'_kelasedit',':data_id') }}";
+             url = url.replace(':data_id', data_id);
+
+            $.get(url, function (data) {
+                // alert('ok');
+                $('#modal-judul').html("Edit Kelas");
+                $('#tombol-simpan').val("edit-post");
+                $('#tambah-edit-modal').modal('show');
+                $('#id').val(data.id);
+                $('#nama_kelas').val(data.nama_kelas);
+            })
+        });
+        @endif
 
 
     });

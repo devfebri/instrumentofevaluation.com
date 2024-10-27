@@ -111,7 +111,7 @@
         $('#tombol-tambah').click(function() {
             $('#id').val(''); //valuenya menjadi kosong
             $('#form-tambah-edit').trigger("reset"); //mereset semua input dll didalamnya
-            $('#modal-judul').html("Tambah User"); //valuenya tambah pegawai baru
+            $('#modal-judul').html("Tambah Mindset"); //valuenya tambah pegawai baru
             $('#tambah-edit-modal').modal('show');
         });
 
@@ -144,9 +144,9 @@
 
         $('body').on('click', '.delete', function(id) {
             var dataid = $(this).attr('data-id');
-            var url = "{{ route(auth()->user()->role.'_userdelete', ':dataid') }}";
+            var url = "{{ route(auth()->user()->role.'_mindsetdelete', ':dataid') }}";
             urls = url.replace(':dataid', dataid);
-            alertify.confirm('Seluruh data yang berkaitan di user ini akan ikut terhapus, apa anda yakin ?', function() {
+            alertify.confirm('Apakah anda yakin ingin menghapus mindset ini ?', function() {
                 $.ajax({
                     url: urls, //eksekusi ajax ke url ini
                     type: 'delete'
