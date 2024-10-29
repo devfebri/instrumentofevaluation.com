@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Dashboard</h4>
+                    <h4 class="page-title">Profile</h4>
                 </div>
             </div>
         </div>
@@ -39,51 +39,65 @@
                         </div>
                         @elseif(auth()->user()->role=='mahasiswa')
                             <div class="media m-b-30">
-                                <img class="d-flex align-self-start m-5" src="{{ auth()->user()->getAvatar() }}" alt="Generic placeholder image" height="400">
+                                <img class="d-flex align-self-start m-5" src="{{ auth()->user()->getAvatar() }}" alt="Generic placeholder image" height="300">
                                 <div class="media-body">
-                                    <h4 class="page-title">Profile</h4>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nama</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->name }}" id="example-text-input" readonly>
+                                    <form action="{{ route(auth()->user()->role.'_updateprofile') }}" method="POST"  enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Nama</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="name" type="text" value="{{ $data->name }}" id="example-text-input" >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">NIM</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->nim }}" id="example-text-input" readonly>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">NIM</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="nim" type="text" value="{{ $data->nim }}" id="example-text-input" >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Jenis Kelamin</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->jk }}" id="example-text-input" readonly>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Jenis Kelamin</label>
+                                            <div class="col-sm-8">
+                                                <select name="jk" id="jk" class="form-control">
+                                                    <option value="">-pilih-</option>
+                                                    <option @if($data->jk=='Laki-Laki') selected @endif value="Laki-Laki">Laki-Laki</option>
+                                                    <option @if($data->jk=='Perempuan') selected @endif value="Perempuan">Perempuan</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nomor HP</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->no_hp }}" id="example-text-input" readonly>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Nomor HP</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" name="no_hp" value="{{ $data->no_hp }}" id="example-text-input" >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Tempat Lahir</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->tmpt_lahir }}" id="example-text-input" readonly>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Tempat Lahir</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" name="tmpt_lahir" value="{{ $data->tmpt_lahir }}" id="example-text-input" >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Tanggal Lahir</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->tgl_lahir }}" id="example-text-input" readonly>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Tanggal Lahir</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="text" name="tgl_lahir" value="{{ $data->tgl_lahir }}" id="example-text-input" >
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Alamat</label>
-                                        <div class="col-sm-9">
-                                            <textarea name="" id="" rows="3" class="form-control" readonly>{{ $data->alamat }}</textarea>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Alamat</label>
+                                            <div class="col-sm-8">
+                                                <textarea rows="3" class="form-control" name="alamat" >{{ $data->alamat }}</textarea>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">Foto Profile</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" type="file" name="avatar" id="example-text-input">
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                                    </form>
 
                                 </div>
                             </div>

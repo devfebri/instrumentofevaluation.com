@@ -100,6 +100,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
 
 
 Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasiswa_')->group(function () {
+    Route::post('/updateprofile',[DashboardController::class,'updateprofile'])->name('updateprofile');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/kelas/{id}', [KelasController::class, 'siswaopen'])->name('siswaopen');
     Route::get('/siswa_mindset', [MindsetSiswaController::class, 'index'])->name('siswamindset');
