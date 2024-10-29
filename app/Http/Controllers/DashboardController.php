@@ -22,10 +22,11 @@ class DashboardController extends Controller
             $file->move(public_path() . '/storage/avatar/' . auth()->user()->username, $filename);
             $data->update(['avatar'=>$filename]);
         }
-        // dd('ok');
+        // dd($request->all());
         $data->update([
             'name'=>$request->name,
             'nim'=>$request->nim,
+            'nip' => $request->nip,
             'jk'=>$request->jk,
             'no_hp'=>$request->no_hp,
             'tmpt_lahir'=>$request->tmpt_lahir,

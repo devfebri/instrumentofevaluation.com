@@ -37,7 +37,8 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        @elseif(auth()->user()->role=='mahasiswa')
+                        @elseif(auth()->user()->role=='mahasiswa'||auth()->user()->role=='dosen')
+
                             <div class="media m-b-30">
                                 <img class="d-flex align-self-start m-5" src="{{ auth()->user()->getAvatar() }}" alt="Generic placeholder image" height="300">
                                 <div class="media-body">
@@ -49,12 +50,23 @@
                                                 <input class="form-control" name="name" type="text" value="{{ $data->name }}" id="example-text-input" >
                                             </div>
                                         </div>
+                                        @if(auth()->user()->role=='dosen')
                                         <div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-4 col-form-label">NIM</label>
+                                            <label for="example-text-input" class="col-sm-4 col-form-label">NIP</label>
                                             <div class="col-sm-8">
-                                                <input class="form-control" name="nim" type="text" value="{{ $data->nim }}" id="example-text-input" >
+                                                <input class="form-control" name="nip" type="text" value="{{ $data->nip }}" id="example-text-input">
                                             </div>
                                         </div>
+                                        @elseif(auth()->user()->role=='mahasiswa')
+                                         <div class="form-group row">
+                                             <label for="example-text-input" class="col-sm-4 col-form-label">NIM</label>
+                                             <div class="col-sm-8">
+                                                 <input class="form-control" name="nim" type="text" value="{{ $data->nim }}" id="example-text-input">
+                                             </div>
+                                         </div>
+
+                                        @endif
+
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                             <div class="col-sm-8">
@@ -98,56 +110,6 @@
 
                                         <button type="submit" class="btn btn-primary float-right">Simpan</button>
                                     </form>
-
-                                </div>
-                            </div>
-                        @elseif(auth()->user()->role=='dosen')
-                            <div class="media m-b-30">
-                                <img class="d-flex align-self-start m-5" src="{{ auth()->user()->getAvatar() }}" alt="Generic placeholder image" height="400">
-                                <div class="media-body">
-                                    <h4 class="page-title">Profile</h4>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nama</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->name }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">NIP</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->nip }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Jenis Kelamin</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->jk }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Nomor HP</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->no_hp }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Tempat Lahir</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->tmpt_lahir }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Tanggal Lahir</label>
-                                        <div class="col-sm-9">
-                                            <input class="form-control" type="text" value="{{ $data->tgl_lahir }}" id="example-text-input" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="example-text-input" class="col-sm-3 col-form-label">Alamat</label>
-                                        <div class="col-sm-9">
-                                            <textarea name="" id="" rows="3" class="form-control" readonly>{{ $data->alamat }}</textarea>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>

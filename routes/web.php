@@ -121,6 +121,7 @@ Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasisw
 
 
 Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(function () {
+    Route::post('/updateprofile', [DashboardController::class, 'updateprofile'])->name('updateprofile');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
