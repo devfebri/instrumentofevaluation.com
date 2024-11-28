@@ -125,7 +125,7 @@ class MindsetSiswaController extends Controller
             (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=3 ) as jwb_3,
             (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=4 ) as jwb_4,
             (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=5 ) as jwb_5
-            from soal s where s.indikator_id=$id limit 1");
+            from soal s where s.indikator_id=$id");
         if($data){
 
             $value=$data[0];

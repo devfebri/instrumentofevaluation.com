@@ -31,6 +31,7 @@
                                     <th>No</th>
                                     <th>Indikator</th>
                                     <th>Jumlah Soal</th>
+                                    <th>Jumlah Jawaban</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -102,6 +103,10 @@
                 , {
                     data: 'jml_soal'
                     , name: 'jml_soal'
+                }
+                , {
+                    data: 'jml_jawaban'
+                    , name: 'jml_jawaban'
                 }
                 , {
                     data: 'action'

@@ -95,8 +95,17 @@ class PertanyaanController extends Controller
                 })->addColumn('jml_soal', function ($f) {
                     $button  = Soal::where('indikator_id',$f->id)->count();
                     return $button;
-                })
-                ->rawColumns(['action', 'jml_indikator'])
+                })->addColumn('jml_jawaban', function ($f) {
+                $button
+                = DB::table('soal')
+                ->select('soal.id', 'soal.indikator_id', 'mahasiswa_jawaban.jawaban')
+                ->join('mahasiswa_jawaban', 'mahasiswa_jawaban.soal_id', '=', 'soal.id')
+                ->where('soal.indikator_id', '=', $f->id)
+                ->count();
+                // dd($button);
+                return $button;
+            })
+                ->rawColumns(['action', 'jml_indikator','jml_jawaban'])
                 ->addIndexColumn()
                 ->make(true);
         }
