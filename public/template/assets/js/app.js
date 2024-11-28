@@ -126,7 +126,7 @@
             });
         },
         // Preloader
-       
+
         MainApp.prototype.init = function () {
             this.initSlimscroll();
             this.initLeftMenuCollapse();

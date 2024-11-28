@@ -114,6 +114,22 @@ class MindsetSiswaController extends Controller
         ->select('mahasiswa_nilai.id', 'users.nim', 'users.name', 'mahasiswa_nilai.skor')
         ->join('users', 'users.id', '=', 'mahasiswa_nilai.user_id')
         ->get();
-        return view('mindsetsiswa.jawaban',compact('indikator','jawaban'));
+        $soal = Soal::where('indikator_id',$id)->get();
+        foreach($soal as $row){
+            $datasoal[]=$row->soal.'';
+        }
+        $data=DB::select("SELECT s.indikator_id,
+            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=1 ) as jwb_1,
+            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=2 ) as jwb_2,
+            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=3 ) as jwb_3,
+            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=4 ) as jwb_4,
+            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=5 ) as jwb_5
+            from soal s where s.indikator_id=6 limit 1");
+        $value=$data[0];
+        // dd($data);
+        $arrsoal= json_encode($datasoal);
+        $countsoal= $soal->count();
+
+        return view('mindsetsiswa.jawaban',compact('indikator','jawaban', 'datasoal','countsoal','value'));
     }
 }

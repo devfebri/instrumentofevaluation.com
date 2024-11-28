@@ -111,6 +111,71 @@
                                         <button type="submit" class="btn btn-primary float-right">Simpan</button>
                                     </form>
 
+                                    <style>
+                                        table, th, td {
+                                        border: 2px solid black;
+                                        border-collapse: collapse;
+                                        text-align: center;
+                                        height:  30px;
+                                        }
+                                        a{
+                                            background-color: transparent;
+                                        }
+
+                                    </style>
+
+                                    <table width="100%">
+                                        <tr>
+                                            <th width="25%">Kelas</th>
+                                            <th width="35%">NIM</th>
+                                            <th width="40%">Nama</th>
+
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                    
+
+
                                 </div>
                             </div>
                         @endif
