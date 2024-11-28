@@ -24,7 +24,7 @@
                     <div class="card-body">
                         @if($value)
 
-                        <canvas id="myChart" height="50"></canvas>
+                        <canvas id="myChart" height="100" ></canvas>
                         @else
                         <h3 class="text-center">Penilaian Belum Ada</h3>
                         @endif
@@ -84,30 +84,17 @@
     $('#datatable1').DataTable();
 
     $(document).ready(function () {
-        //creating lineChart
-        // alert(countsoal);
+
         var lineChart = {
             labels: ["Sangat Tidak Setuju","Tidak Setuju","Netral","Setuju","Sangat Setuju"],
             datasets: [
                 {
                     label: "Grafik Jawaban Mahasiswa",
-                    fill: true,
-                    lineTension: 0.5,
-                    backgroundColor: "rgba(0, 151, 167, 0.2)",
-                    borderColor: "#0097a7",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "#0097a7",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "#0097a7",
-                    pointHoverBorderColor: "#eef0f2",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
+                    backgroundColor: "#5b6be8",
+                    borderColor: "#5b6be8",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#5b6be8",
+                    hoverBorderColor: "#5b6be8",
                     data: [data['jwb_1'], data['jwb_2'],data['jwb_3'],data['jwb_4'],data['jwb_5'] ]
 
 
@@ -134,7 +121,7 @@
         const xValues = [100,200,300,400,500,600,700,800,900,1000];
 
             new Chart("myChart", {
-            type: "line",
+            type: "bar",
             data: lineChart,
             options: lineOpts
         });
