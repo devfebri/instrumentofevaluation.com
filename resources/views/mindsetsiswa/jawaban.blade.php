@@ -22,8 +22,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        @if($value)
 
                         <canvas id="myChart" height="50"></canvas>
+                        @else
+                        <h3 class="text-center">Penilaian Belum Ada</h3>
+                        @endif
                     </div>
                 </div>
 
