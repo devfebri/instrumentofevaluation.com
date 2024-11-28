@@ -22,12 +22,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        @if($value)
+                        <h4 class="mt-0 header-title">Jawaban <br> Indikator : {{ $indikator->nama_indikator }}</h4>
 
                         <canvas id="myChart" height="100" ></canvas>
-                        @else
-                        <h3 class="text-center">Penilaian Belum Ada</h3>
-                        @endif
                     </div>
                 </div>
 
@@ -36,7 +33,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="mt-0 header-title">Jawaban <br> Indikator : {{ $indikator->nama_indikator }}</h4>
+
                         <table id="datatable1" class="table table-bordered" style="width: 100%;">
                             <thead>
                                 <tr>
@@ -80,7 +77,12 @@
 
 
 <script>
-    var data=<?php echo json_encode($value) ?>;
+    var skor1=<?php echo json_encode($skor1) ?>;
+    var skor2=<?php echo json_encode($skor2) ?>;
+    var skor3=<?php echo json_encode($skor3) ?>;
+    var skor4=<?php echo json_encode($skor4) ?>;
+    var skor5=<?php echo json_encode($skor5) ?>;
+    var maxskor=<?php echo json_encode($maxskor) ?>;
     $('#datatable1').DataTable();
 
     $(document).ready(function () {
@@ -89,16 +91,13 @@
             labels: ["Sangat Tidak Setuju","Tidak Setuju","Netral","Setuju","Sangat Setuju"],
             datasets: [
                 {
-                    label: "Grafik Jawaban Mahasiswa",
+                    label: "Jumlah Jawaban",
                     backgroundColor: "#5b6be8",
                     borderColor: "#5b6be8",
                     borderWidth: 1,
                     hoverBackgroundColor: "#5b6be8",
                     hoverBorderColor: "#5b6be8",
-                    data: [data['jwb_1'], data['jwb_2'],data['jwb_3'],data['jwb_4'],data['jwb_5'] ]
-
-
-
+                    data: [skor1, skor2,skor3,skor4,skor5 ]
                 },
 
             ]
@@ -108,7 +107,7 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        max: 20,
+                        max: maxskor,
                         min: 0,
                         stepSize: 10
                     }

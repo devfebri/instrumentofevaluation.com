@@ -119,23 +119,46 @@ class MindsetSiswaController extends Controller
         // foreach($soal as $row){
         //     $datasoal[]=$row->soal.'';
         // }
-        $data=DB::select("SELECT s.indikator_id,
-            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=1 ) as jwb_1,
-            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=2 ) as jwb_2,
-            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=3 ) as jwb_3,
-            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=4 ) as jwb_4,
-            (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=5 ) as jwb_5
-            from soal s where s.indikator_id=$id");
-        if($data){
 
-            $value=$data[0];
-        }else{
-            $value=null;
+        // lama
+        // $data=DB::select("SELECT s.indikator_id,
+        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=1 ) as jwb_1,
+        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=2 ) as jwb_2,
+        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=3 ) as jwb_3,
+        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=4 ) as jwb_4,
+        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=5 ) as jwb_5
+        //     from soal s where s.indikator_id=$id");
+        // if($data){
+        //     $value=$data[0];
+        // }else{
+        //     $value=null;
+        // }
+        // end
+
+        $data = MahasiswaNilai::where('indikator_id',$id)->get();
+        $skor1=0;
+        $skor2 = 0;
+        $skor3 = 0;
+        $skor4 = 0;
+        $skor5 = 0;
+        foreach($data as $row){
+            if($row->skor<20){
+                $skor1=++$skor1;
+            }elseif($row->skor<40){
+                $skor2=++$skor2;
+            } elseif ($row->skor < 60) {
+                $skor3 = ++$skor3;
+            } elseif ($row->skor < 80) {
+                $skor4 = ++$skor4;
+            } elseif ($row->skor <= 100) {
+                $skor5 = ++$skor5;
+            }
         }
-        // dd($data);
+        $maxskor= max($skor1, $skor2, $skor3, $skor4, $skor5)+5;
+
         // $arrsoal= json_encode($datasoal);
         $countsoal= $soal->count();
 
-        return view('mindsetsiswa.jawaban',compact('indikator','jawaban', 'countsoal','value'));
+        return view('mindsetsiswa.jawaban',compact('indikator','jawaban', 'countsoal','skor1','skor2','skor3','skor4','skor5','maxskor'));
     }
 }
