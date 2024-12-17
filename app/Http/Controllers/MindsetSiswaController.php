@@ -19,6 +19,7 @@ class MindsetSiswaController extends Controller
     public function openmindset($id,Request $request){
         $mindset = Mindset::find($id);
         $data = Indikator::where('mindset_id', $id)->get();
+        // dd($data);
 
 
         if ($request->ajax()) {
@@ -40,7 +41,7 @@ class MindsetSiswaController extends Controller
                     $button  = Soal::where('indikator_id', $f->id)->count();
                     return $button;
                 })->addColumn('nilai', function ($f) {
-                $d  = MahasiswaNilai::where('indikator_id',$f->id);
+                $d  = MahasiswaNilai::where('indikator_id',$f->id)->where('user_id',auth()->user()->id);
                 $jmlpenilai=$d->count();
                 if($jmlpenilai!=0){
 
@@ -68,6 +69,8 @@ class MindsetSiswaController extends Controller
     public function getSoal($id){
 
         $data['soal']=Soal::where('indikator_id',$id)->inRandomOrder()->get();
+
+        // dd($data['jml_soal']);
         // dd($data['soal']);
         $data['indikator']=Indikator::find($id);
         $data['mindset']=Mindset::find($data['indikator']->mindset_id);
@@ -76,35 +79,41 @@ class MindsetSiswaController extends Controller
     }
 
     public function siswakirimtugas(Request $request){
-        // dd($request->all());
-        $mn=new MahasiswaNilai();
-        $mn->mindset_id=$request->mindset_id;
-        $mn->indikator_id=$request->indikator_id;
-        $mn->user_id=auth()->user()->id;
-        $mn->save();
 
-        foreach ($request->jawaban as $key => $value) {
-            // dd(explode('#', $value)[1]);
-            $jwb = new MahasiswaJawaban();
-            $jwb->soal_id = explode('#', $value)[1];
-            $jwb->jawaban = explode('#', $value)[0];
-            $jwb->mahasiswa_nilai_id = $mn->id;
-            $jwb->save();
-        }
+        $totalindikatorsoal = Soal::where('indikator_id', $request->indikator_id)->count();
+        // dd($totalindikatorsoal);
+        if($totalindikatorsoal== count($request->jawaban)){
+            $mn = new MahasiswaNilai();
+            $mn->mindset_id = $request->mindset_id;
+            $mn->indikator_id = $request->indikator_id;
+            $mn->user_id = auth()->user()->id;
+            $mn->save();
 
-        $totalsoal = count($request->jawaban);
-        $totalindikatorsoal=Soal::where('indikator_id',$request->indikator_id)->count();
-        if ($totalsoal == $totalindikatorsoal) {
-            $jawabans = array_sum($request->jawaban);
-            $totalnilai = $totalindikatorsoal * 5;
-            $hasil = ($jawabans / $totalnilai) * 100;
-            $data = number_format($hasil, 2);
+            foreach ($request->jawaban as $key => $value) {
+                // dd(explode('#', $value)[1]);
+                $jwb = new MahasiswaJawaban();
+                $jwb->soal_id = explode('#', $value)[1];
+                $jwb->jawaban = explode('#', $value)[0];
+                $jwb->mahasiswa_nilai_id = $mn->id;
+                $jwb->save();
+            }
 
-            MahasiswaNilai::find($mn->id)->update(['skor'=>$data]);
+            $totalsoal = count($request->jawaban);
 
-        } else {
+            if ($totalsoal == $totalindikatorsoal) {
+                $jawabans = array_sum($request->jawaban);
+                $totalnilai = $totalindikatorsoal * 5;
+                $hasil = ($jawabans / $totalnilai) * 100;
+                $data = number_format($hasil, 2);
+
+                MahasiswaNilai::find($mn->id)->update(['skor' => $data]);
+            } else {
+                $data = 'error';
+            }
+        }else{
             $data = 'error';
         }
+
         return response()->json($data);
     }
 
@@ -116,24 +125,6 @@ class MindsetSiswaController extends Controller
         ->where('indikator_id',$id)
         ->get();
         $soal = Soal::where('indikator_id',$id)->get();
-        // foreach($soal as $row){
-        //     $datasoal[]=$row->soal.'';
-        // }
-
-        // lama
-        // $data=DB::select("SELECT s.indikator_id,
-        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=1 ) as jwb_1,
-        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=2 ) as jwb_2,
-        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=3 ) as jwb_3,
-        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=4 ) as jwb_4,
-        //     (SELECT count(mj.jawaban) from mahasiswa_jawaban mj where mj.jawaban=5 ) as jwb_5
-        //     from soal s where s.indikator_id=$id");
-        // if($data){
-        //     $value=$data[0];
-        // }else{
-        //     $value=null;
-        // }
-        // end
 
         $data = MahasiswaNilai::where('indikator_id',$id)->get();
         $skor1=0;

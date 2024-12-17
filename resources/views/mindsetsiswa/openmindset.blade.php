@@ -109,8 +109,8 @@
                 success: function (data) {
                     $('#modal-judul').html('Mengerjakan Mindset Pada Indikator "'+data['indikator']['nama_indikator']+'"')
                     $.each(data['soal'], function(index, item) {
-                        console.log(item);
-                        console.log(index);
+                        // console.log(item);
+                        // console.log(index);
 
                         soal+=`<div class="form-group mb-1">
                             <label for="formGroupExampleInput2"><b>`+key+`. `+item['soal']+` ?</b> </label>
@@ -170,28 +170,33 @@
                         contentType: false,
                         cache: false,
                         timeout: 600000,
-                        success: function (data) { //jika berhasil
+                        success: function (row) { //jika berhasil
+                            console.log(row);
                             $('#form-tambah-edit').trigger("reset"); //form
                             $('#hasil').hide();
                             $('#hasil').show();
-                            $('#skor').html("Skor Anda : "+data);
-                            if(data>=75){
+                            if(row>=60){
+                                $('#skor').html("Skor Anda : "+row);
                                 $("#my_image").attr("src","{{ asset('img/4.png') }}");
-                            }else if(data>=50){
-                                $("#my_image").attr("src","{{ asset('img/3.png') }}");
-                            }else if(data>=25){
-                                $("#my_image").attr("src","{{ asset('img/2.png') }}");
-                            }else if(data>=0){
+                            }else if(row>=0){
+                                $('#skor').html("Skor Anda : "+row);
+
                                 $("#my_image").attr("src","{{ asset('img/1.png') }}");
+                            }else{
+                                $('#skor').html("Ada yang belum di isi nih, Periksa kembali ya!");
+
+                                 $("#my_image").attr("src","{{ asset('img/2.png') }}");
                             }
 
                             // $('#tambah-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
+                            $('#tombol-simpan').attr('disabled','true');
+
                             var oTable = $('#datatable1').dataTable(); //inialisasi datatable
                             oTable.fnDraw(false);
                             alertify.success('Berhasil Mengerjakan Pertanyaan');
                         },
-                        error: function (data) { //jika error tampilkan error pada console
+                        error: function (row) { //jika error tampilkan error pada console
                             $('#tombol-simpan').html('Simpan');
                         }
                     });

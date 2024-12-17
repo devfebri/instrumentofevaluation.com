@@ -7,6 +7,7 @@ use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MindsetSiswaController;
 use App\Http\Controllers\PertanyaanController;
+use App\Http\Controllers\SkorController;
 use App\Http\Controllers\TugasJawabanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -95,8 +96,11 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->name('admin_')->group(
 
     Route::get('/mindset/open/openjawaban/{id}',[MindsetSiswaController::class,'mahasiswajawaban'])->name('jawaban');
 
+    Route::get('/skor',[SkorController::class,'index'])->name('skor');
+    Route::get('/skor/export/{id}', [SkorController::class, 'export'])->name('export');
 
 });
+
 
 
 Route::prefix('mahasiswa')->middleware('auth', 'role:mahasiswa')->name('mahasiswa_')->group(function () {
@@ -135,12 +139,14 @@ Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(
     Route::post('/kelas/mahasiswatambah', [KelasController::class, 'tambahmahasiswa'])->name('tambahmahasiswa');
 
     Route::delete('/materi/{id}', [KelasController::class, 'deletemateri'])->name('deletemateri');
+    Route::get('/materi/edit/{id}', [KelasController::class, 'materiedit'])->name('materiedit');
     Route::delete('/tugas/{id}', [KelasController::class, 'deletetugas'])->name('deletetugas');
     Route::get('/getMahasiswa/{id}', [KelasController::class, 'getMahasiswa'])->name('getMahasiswa');
     Route::delete('/mahasiswa/{id}', [KelasController::class, 'deletemahasiswa'])->name('deletemahasiswa');
     Route::delete('/matakuliah/{id}', [KelasController::class, 'deletematakuliah'])->name('deletematakuliah');
     Route::get('/getMatakuliah/{id}', [KelasController::class, 'getMatakuliah'])->name('getMatakuliah');
     Route::get('/getTugas/{id}', [KelasController::class, 'getTugas'])->name('getTugas');
+    Route::get('/kelas/edit/{id}', [KelasController::class, 'tugasedit'])->name('tugasedit');
 
     Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
 

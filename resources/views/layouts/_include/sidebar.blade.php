@@ -37,6 +37,13 @@
                     <li><a href="{{ route(auth()->user()->role.'_mindset') }}">Mahasiswa</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="{{ route(auth()->user()->role.'_skor') }}" class="waves-effect">
+                    <i class="mdi mdi-clipboard"></i>
+                    <span> Skor </span>
+                </a>
+            </li>
+
             {{-- <li>
                 <a href="#" class="waves-effect">
                     <i class="mdi mdi-buffer"></i>

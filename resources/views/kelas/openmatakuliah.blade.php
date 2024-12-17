@@ -122,7 +122,7 @@
             </div>
             <form class="needs-validation" id="form-tugas-tambah-edit" name="form-tugas-tambah-edit">
                 <div class="modal-body">
-                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id" id="id_tugas">
                      <input type="hidden" name="kelas_id" id="kelas_id" value="{{ $matakuliah->kelas_id }}">
                      <input type="hidden" name="matakuliah_id" id="matakuliah_id" value="{{ $id }}">
 
@@ -133,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
-                        <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="225" rows="3"></textarea>
+                        <textarea id="deskripsi_tugas" name="deskripsi" class="form-control" maxlength="225" rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">File</h6>
@@ -167,7 +167,8 @@
                     <input type="hidden" name="tugas_id" id="tugas_id">
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Deskripsi</h6>
-                        <textarea id="deskripsi" name="deskripsi_jawaban" class="form-control" maxlength="225" rows="3" required></textarea>
+                        <textarea id="deskripsi_jawaban" name="deskripsi_jawaban" class="form-control" maxlength="225" rows="3" required></textarea>
+
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">File</h6>
@@ -332,7 +333,25 @@
                 alertify.error('Cancel')
             });
         });
+        $('body').on('click', '.edittugas-post', function () {
+             var data_id = $(this).data('id');
+             var url = "{{ route(auth()->user()->role.'_tugasedit',':data_id') }}";
+             url = url.replace(':data_id', data_id);
 
+            $.get(url, function (data) {
+                // alert('ok');
+                $('#modal-judultugas').html("Edit Tugas");
+                $('#tombol-simpan').val("edit-post");
+                $('#tambahtugas-edit-modal').modal('show');
+                $('#id_tugas').val(data.id);
+                $('#nama_tugas').val(data.nama_tugas);
+                $('#deskripsi_tugas').val(data.deskripsi);
+
+
+                $('#link_tugas').val(data.link_tugas);
+                $('#file_tugas').prop('disabled',true);
+            })
+        });
         @endif
 
 
@@ -396,6 +415,28 @@
             }, function() {
                 alertify.error('Cancel')
             });
+        });
+
+         $('body').on('click', '.editmateri-post', function () {
+             var data_id = $(this).data('id');
+             var url = "{{ route(auth()->user()->role.'_materiedit',':data_id') }}";
+             url = url.replace(':data_id', data_id);
+
+            $.get(url, function (data) {
+                // alert('ok');
+                $('#modal-judulmateri').html("Edit Materi"); //valuenya tambah pegawai baru
+
+                $('#tombol-simpan').val("edit-post");
+                $('#tambahmateri-edit-modal').modal('show');
+
+                $('#id').val(data.id);
+                $('#nama_materi').val(data.nama_materi);
+                $('#deskripsi').val(data.deskripsi);
+                $('#link_materi').val(data.link_materi);
+                $('#file_materi').prop('disabled',true);
+
+
+            })
         });
         @endif
 
