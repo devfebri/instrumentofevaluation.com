@@ -150,4 +150,7 @@ Route::prefix('dosen')->middleware('auth', 'role:dosen')->name('dosen_')->group(
 
     Route::get('/tugasjawaban/{id}', [TugasJawabanController::class, 'index'])->name('tugasjawaban');
 
+    Route::get('/skor', [SkorController::class, 'index'])->name('skor');
+    Route::get('/skor/export/{id}', [SkorController::class, 'export'])->name('export');
+
 });

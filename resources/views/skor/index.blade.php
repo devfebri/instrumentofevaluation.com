@@ -26,7 +26,7 @@
 
                     <div class="card-body" id="item-{{ $row['id_mindset'] }}">
 
-                        <h4 class="mt-0 header-title">Mindset : {{ $row['nama_mindset'] }} <a href="{{ route('admin_export',['id'=>$row['id_mindset']]) }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-download"></i> Excel</a></h4>
+                        <h4 class="mt-0 header-title">Mindset : {{ $row['nama_mindset'] }} <a href="{{ route(auth()->user()->role.'_export',['id'=>$row['id_mindset']]) }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-download"></i> Excel</a></h4>
 
 
 

@@ -71,6 +71,12 @@
                     <span> Kelas </span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route(auth()->user()->role.'_skor') }}" class="waves-effect">
+                    <i class="mdi mdi-clipboard"></i>
+                    <span> Skor </span>
+                </a>
+            </li>
             @endif
         </ul>
     </div>
