@@ -58,7 +58,7 @@
 
     </tfoot>
 </table>
-{{-- @dd('ok') --}}
+@dd('ok')
 
 @else
 <table>
