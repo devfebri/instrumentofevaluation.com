@@ -81,7 +81,7 @@ class SkorExport implements FromView
                 from mindset m
                 left join indikator i on i.mindset_id = m.id
                 left join soal s on s.indikator_id = i.id
-                where m.id =? order by s.id asc",[$this->id]),
+                where m.id =? order by s.idikator_id asc",[$this->id]),
             'jawaban'=>$jawaban,
             'soal'=>$soal
 
