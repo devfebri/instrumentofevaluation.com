@@ -27,8 +27,12 @@ class SkorExport implements FromView
             where mn.mindset_id =?
             group by user_id
         ",[$this->id]);
-        $soal = Soal::all();
-        $skormax= $soal->count() * 5;
+        $soal = DB::select("select s.id,s.soal,s.indikator_id,i.mindset_id from soal s
+            join indikator i on i.id =s.indikator_id
+            join mindset m on m.id = i.mindset_id
+            where m.id =?",[$this->id]);
+
+        $skormax= count($soal) * 5;
         $key = 0;
         $jawaban=[];
 

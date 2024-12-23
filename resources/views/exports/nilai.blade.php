@@ -26,7 +26,8 @@
         <tr>
             <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0['nama'] }}</td>
             <?php $i=1; ?>
-            @while ($i<=$soal->count())
+            @while ($i<=count($soal))
+
 
             <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0[$i] }}</td>
             <?php $i++; ?>
