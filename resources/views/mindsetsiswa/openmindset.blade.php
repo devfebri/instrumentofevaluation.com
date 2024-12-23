@@ -90,6 +90,11 @@
     $('body').on('click', '.mulai', function(id) {
          $('#form').show();
          $('#hasil').hide();
+            $('#tombol-simpan').prop('disabled',false);
+
+
+
+
 
         var dataid = $(this).attr('data-id');
         var url = "{{ route(auth()->user()->role.'_getSoal', ':dataid') }}";
@@ -172,29 +177,46 @@
                         timeout: 600000,
                         success: function (row) { //jika berhasil
                             console.log(row);
-                            $('#form-tambah-edit').trigger("reset"); //form
+
                             $('#hasil').hide();
                             $('#hasil').show();
                             if(row>=60){
+                                $('#form-tambah-edit').trigger("reset"); //form
+
                                 $('#skor').html("Skor Anda : "+row);
                                 $("#my_image").attr("src","{{ asset('img/4.png') }}");
+                                  $('#tombol-simpan').attr('disabled','true');
+                                  var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                                  oTable.fnDraw(false);
+                                  alertify.success('Berhasil Mengerjakan Pertanyaan');
+
+
                             }else if(row>=0){
+                                $('#form-tambah-edit').trigger("reset"); //form
+
                                 $('#skor').html("Skor Anda : "+row);
 
                                 $("#my_image").attr("src","{{ asset('img/1.png') }}");
+                                  $('#tombol-simpan').attr('disabled','true');
+                                var oTable = $('#datatable1').dataTable(); //inialisasi datatable
+                                oTable.fnDraw(false);
+                                alertify.success('Berhasil Mengerjakan Pertanyaan');
+
                             }else{
                                 $('#skor').html("Ada yang belum di isi nih, Periksa kembali ya!");
 
                                  $("#my_image").attr("src","{{ asset('img/2.png') }}");
+                                  $('#tombol-simpan').prop('disabled',false);
+                                  alertify.error('Periksa Kembali');
+
+
                             }
 
                             // $('#tambah-edit-modal').modal('hide'); //modal hide
                             $('#tombol-simpan').html('Simpan'); //tombol simpan
-                            $('#tombol-simpan').attr('disabled','true');
 
-                            var oTable = $('#datatable1').dataTable(); //inialisasi datatable
-                            oTable.fnDraw(false);
-                            alertify.success('Berhasil Mengerjakan Pertanyaan');
+
+
                         },
                         error: function (row) { //jika error tampilkan error pada console
                             $('#tombol-simpan').html('Simpan');

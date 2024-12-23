@@ -28,11 +28,14 @@ class SkorExport implements FromView
             group by user_id
         ",[$this->id]);
         $soal = Soal::all();
-
+        $skormax= $soal->count() * 5;
         $key = 0;
         $jawaban=[];
+
         foreach ($data as $row) {
             $nosoal=1;
+            $total = 0;
+
             $jawaban[$key]['user_id'] = $row->user_id;
             $jawaban[$key]['nama'] = $row->name;
             $jawaban[$key]['skor'] = $row->skor;
@@ -46,12 +49,15 @@ class SkorExport implements FromView
                 foreach ($jwb as $row2) {
                     if ($row1->id == $row2->soal_id) {
                         $jawaban[$key][$nosoal] = $row2->jawaban;
+                        $total=$total+$row2->jawaban;
+
                     }
                 }
                 ++$nosoal;
             }
-            $jawaban[$key]['skor_total'] = 0;
-            $jawaban[$key]['persentase'] = 0;
+            $jawaban[$key]['skor_total'] = $total;
+            $jawaban[$key]['persentase'] = number_format($total / $skormax * 100,2);
+            // dd($total * 100);
             ++$key;
         }
         // dd($jawaban);

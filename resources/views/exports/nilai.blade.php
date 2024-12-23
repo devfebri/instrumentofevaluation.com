@@ -31,7 +31,8 @@
             <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0[$i] }}</td>
             <?php $i++; ?>
             @endwhile
-            <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0['skor'] }}</td>
+            <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0['skor_total'] }}</td>
+
             <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">{{ $row0['persentase'] }}</td>
         </tr>
         @endforeach
@@ -56,7 +57,7 @@
 
     </tfoot>
 </table>
-{{-- @dd('ok') --}}
+@dd('ok')
 
 @else
 <table>
