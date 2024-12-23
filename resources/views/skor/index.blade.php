@@ -56,7 +56,7 @@
 <script src='{{ asset('template/assets/plugins/select2/select2.min.js') }}'></script>
 <script src="{{ asset('js/jquery-validation/jquery.validate.min.js') }}"></script>
 
-
+{{-- @dd($dataskor) --}}
 
 <script>
 

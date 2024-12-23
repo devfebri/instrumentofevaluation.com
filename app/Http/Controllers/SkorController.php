@@ -23,13 +23,13 @@ class SkorController extends Controller
             $maxskor=0;
             $data = MahasiswaNilai::where('mindset_id', $row->id)->get();
             foreach ($data as $row1) {
-                if ($row1->skor < 20) {
+                if ($row1->skor <= 20) {
                     $skor1 = ++$skor1;
-                } elseif ($row1->skor < 40) {
+                } elseif ($row1->skor <= 40) {
                     $skor2 = ++$skor2;
-                } elseif ($row1->skor < 60) {
+                } elseif ($row1->skor <= 60) {
                     $skor3 = ++$skor3;
-                } elseif ($row1->skor < 80) {
+                } elseif ($row1->skor <= 80) {
                     $skor4 = ++$skor4;
                 } elseif ($row1->skor <= 100) {
                     $skor5 = ++$skor5;
