@@ -30,11 +30,19 @@ class SkorExport implements FromView
         $soal = DB::select("select s.id,s.soal,s.indikator_id,i.mindset_id from soal s
             join indikator i on i.id =s.indikator_id
             join mindset m on m.id = i.mindset_id
-            where m.id =?",[$this->id]);
+            where m.id =? order by s.indikator_id asc",[$this->id]);
+
+        $datasoal = DB::select("select m.id as id_mindset,i.id as indikator_id, m.nama_mindset,i.nama_indikator,s.soal,s.indikator_id,s.id as soal_id
+                from mindset m
+                left join indikator i on i.mindset_id = m.id
+                left join soal s on s.indikator_id = i.id
+                where m.id =? order by s.indikator_id asc", [$this->id]);
 
         $skormax= count($soal) * 5;
         $key = 0;
         $jawaban=[];
+
+
 
         foreach ($data as $row) {
             $nosoal=1;
@@ -43,7 +51,7 @@ class SkorExport implements FromView
             $jawaban[$key]['user_id'] = $row->user_id;
             $jawaban[$key]['nama'] = $row->name;
             $jawaban[$key]['skor'] = $row->skor;
-            foreach ($soal as $row1) {
+            foreach ($datasoal as $row1) {
                 $jawaban[$key][$nosoal] = 'Null';
                 $jwb = DB::select("select mn.user_id,mn.mindset_id,mn.indikator_id,mj.soal_id,mj.jawaban
                     from mahasiswa_jawaban mj
@@ -51,7 +59,7 @@ class SkorExport implements FromView
                     where mn.user_id =?
                 ", [$row->user_id]);
                 foreach ($jwb as $row2) {
-                    if ($row1->id == $row2->soal_id) {
+                    if ($row1->soal_id == $row2->soal_id) {
                         $jawaban[$key][$nosoal] = $row2->jawaban;
                         $total=$total+$row2->jawaban;
 
@@ -64,7 +72,9 @@ class SkorExport implements FromView
             // dd($total * 100);
             ++$key;
         }
+
         // dd($jawaban);
+
         return view('exports.nilai', [
             'data' => MahasiswaNilai::all(),
             'mindset'=> Mindset::find($this->id),
@@ -77,11 +87,7 @@ class SkorExport implements FromView
                 left join indikator i on i.mindset_id = m.id
                 left join soal s on s.indikator_id = i.id
                 where m.id = ?",[$this->id]),
-            'data_soal'=>DB::select("select m.id as id_mindset,m.nama_mindset,i.nama_indikator,s.soal,s.indikator_id
-                from mindset m
-                left join indikator i on i.mindset_id = m.id
-                left join soal s on s.indikator_id = i.id
-                where m.id =? order by s.indikator_id asc,s.id asc",[$this->id]),
+            'data_soal'=>$datasoal,
             'jawaban'=>$jawaban,
             'soal'=>$soal
 

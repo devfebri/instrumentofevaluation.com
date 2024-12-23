@@ -15,6 +15,7 @@
             <th style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;" colspan="{{ $row->jml_soal }}">{{ $row->nama_indikator }}</th>
             @endforeach
         </tr>
+        {{-- @dd($data_soal) --}}
         <tr>
             @foreach ($data_soal as $key=>$row1)
             <td style="text-align: center;vertical-align: middle;border: 1px solid black;border-collapse: collapse;">Soal {{ ++$key }}</td>
@@ -58,7 +59,7 @@
 
     </tfoot>
 </table>
-@dd('ok')
+{{-- @dd('ok') --}}
 
 @else
 <table>
