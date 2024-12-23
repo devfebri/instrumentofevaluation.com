@@ -77,11 +77,11 @@ class SkorExport implements FromView
                 left join indikator i on i.mindset_id = m.id
                 left join soal s on s.indikator_id = i.id
                 where m.id = ?",[$this->id]),
-            'data_soal'=>DB::select("select m.id as id_mindset,m.nama_mindset,i.nama_indikator,s.soal
+            'data_soal'=>DB::select("select m.id as id_mindset,m.nama_mindset,i.nama_indikator,s.soal,s.indikator_id
                 from mindset m
                 left join indikator i on i.mindset_id = m.id
                 left join soal s on s.indikator_id = i.id
-                where m.id =? order by s.idikator_id asc",[$this->id]),
+                where m.id =? order by s.indikator_id asc,s.id asc",[$this->id]),
             'jawaban'=>$jawaban,
             'soal'=>$soal
 
