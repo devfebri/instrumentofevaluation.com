@@ -104,7 +104,7 @@
                     </div>
                     <div class="form-group">
                         <h6 class="text-muted fw-400 mt-3">Nama Dosen</h6>
-                        <select name="dosen_id" id="dosen_id" class="form-control select2"  style="width: 100%">
+                        <select name="dosen_id" id="dosen_id" class="form-control select2"  style="width: 100%" required>
                             <option value="">-Pilih-</option>
                             @foreach($dosen as $row1)
                             <option value="{{ $row1->id }}">{{ $row1->nip }}-{{ $row1->name }}</option>
